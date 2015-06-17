@@ -1,26 +1,26 @@
-DROP TABLE attendance_management.employee;
+ï»¿DROP TABLE attendance_management.employee;
 
 CREATE TABLE attendance_management.employee (emp_no VARCHAR(4) PRIMARY KEY, emp_name VARCHAR(30) NOT NULL, emp_pass VARCHAR(15) NOT NULL);
 
-INSERT INTO attendance_management.employee VALUES ('M001','“c’†õ–@','tanakats');
+INSERT INTO attendance_management.employee VALUES ('M001','ç”°ä¸­å¯¿æ³•','tanakats');
 
-INSERT INTO attendance_management.employee VALUES ('M002','‹–ØK‹I','ushikit');
+INSERT INTO attendance_management.employee VALUES ('M002','ç‰›æœ¨å¹¸ç´€','ushikit');
 
-INSERT INTO attendance_management.employee VALUES ('E002','ùŒ´‘å','sasaharad');
+INSERT INTO attendance_management.employee VALUES ('E002','ç¬¹åŸå¤§æ™‚','sasaharad');
 
-INSERT INTO attendance_management.employee VALUES ('E003','âV“¡Â','saitow');
+INSERT INTO attendance_management.employee VALUES ('E003','é½‹è—¤æ¸‰','saitow');
 
-INSERT INTO attendance_management.employee VALUES ('E005','‰ª–{','okamotoj');
+INSERT INTO attendance_management.employee VALUES ('E005','å²¡æœ¬æ½¤','okamotoj');
 
-INSERT INTO attendance_management.employee VALUES ('E006','“c’[—º','tabatar');
-INSERT INTO attendance_management.employee VALUES ('E007','·—³–ç','morit');
+INSERT INTO attendance_management.employee VALUES ('E006','ç”°ç«¯äº®','tabatar');
+INSERT INTO attendance_management.employee VALUES ('E007','ç››ç«œä¹Ÿ','morit');
 
-INSERT INTO attendance_management.employee VALUES ('E008','š ¬—t','kokusyoy');
+INSERT INTO attendance_management.employee VALUES ('E008','åœ‹å°è‘‰','kokusyoy');
 
-INSERT INTO attendance_management.employee VALUES ('E009','¼”ö’m”ü','kokusyoy');
+INSERT INTO attendance_management.employee VALUES ('E009','è¥¿å°¾çŸ¥ç¾','kokusyoy');
 
-INSERT INTO attendance_management.employee VALUES ('E010','‘ê–{”º','tanakats');
+INSERT INTO attendance_management.employee VALUES ('E010','æ»æœ¬åšæ˜­','tanakats');
 
-INSERT INTO attendance_management.employee VALUES ('E011','‘å‘ê¸•½','ohtakis');
+INSERT INTO attendance_management.employee VALUES ('E011','å¤§æ»æ˜‡å¹³','ohtakis');
 
 commit;
