@@ -5,7 +5,7 @@
 
 <struts-config>
     <form-beans>
-        <form-bean name="AMForm" type="action.form.AMForm" />
+        <form-bean name="AMForm" type="action.form.AM_form" />
     </form-beans>
 
     <action-mappings>
@@ -19,7 +19,7 @@
             <forward name="Nomal" path="/main.jsp" />
         </action>
 
-		<!-- adminボタン -->
+		<!-- Adminボタン -->
         <action path="/Login_Admin"
         		type="action.Check_Admin"
         		name="AMForm"

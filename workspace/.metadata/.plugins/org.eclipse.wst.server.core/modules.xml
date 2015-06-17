@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <modules>
+  <module moduleId="org.eclipse.jst.jee.server:Attendance" serverId="ローカル・ホスト の Tomcat v8.0 サーバー"/>
   <module moduleId="org.eclipse.jst.jee.server:ValidateSample" serverId="ローカル・ホスト の Tomcat v8.0 サーバー"/>
   <module moduleId="org.eclipse.jst.jee.server:AttendanceManagement" serverId="ローカル・ホスト の Tomcat v8.0 サーバー"/>
   <module moduleId="org.eclipse.jst.jee.server:Kadai" serverId="ローカル・ホスト の Tomcat v8.0 サーバー"/>

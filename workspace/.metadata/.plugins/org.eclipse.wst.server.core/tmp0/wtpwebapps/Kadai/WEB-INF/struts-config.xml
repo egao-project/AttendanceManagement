@@ -11,7 +11,7 @@
 
     <action-mappings>
         <action path="/Kadai"
-        		type="action.CopyOfKadaiAction"
+        		type="action.KadaiAction"
         		name="KadaiForm"
         		scope="session"
         		validate="true"

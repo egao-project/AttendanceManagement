@@ -16,8 +16,8 @@
 <body>
 	<script type="text/javascript">
     	function movePage(path){
-    		document.frm.action = path + ".do";
-    		document.frm.submit();
+    		document.button_work.action = path + ".do";
+    		document.button_work.submit();
     	}
 	</script>
 	<img src="./img/egao.png" alt="eGAOロゴ" id="rogo">
@@ -27,9 +27,9 @@
 		<table id="table_main">
 			<caption>滝本博昭 さん</caption>
 			<tr>
-				<td><html:button value="出 勤" property="StartTime" onclick="movePage(StartTime)" styleId="button_work" />
+				<td><html:button value="出 勤" property="StartTime" onclick="movePage('StartTime')" styleId="button_work" />
 				<td width="50px">
-				<td><html:button value="退 勤" property="LastTime" onclick="movePage(LastTime)" styleId="button_work" />
+				<td><html:button value="退 勤" property="LastTime" onclick="movePage('LastTime')" styleId="button_work" />
 			<tr>
 				<td colspan="3" height="10xp">
 			<tr>
@@ -44,7 +44,7 @@
 			<tr>
 				<td><html:button value="戻る"  property="back" onclick="location.href='./login.jsp'" styleId="button" />
 				<td width="50px">
-				<td><html:button value="Output" property="output" onclick="movePage(output)" styleId="button" />
+				<td><html:button value="Output" property="output" onclick="movePage('output')" styleId="button" />
 		</table>
 	</div>
 </body>

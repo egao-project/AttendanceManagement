@@ -11,7 +11,7 @@ public class DBConnect {
 		String dbname = "attendance_management";
 		String user = "local";
 		String pw = "abcd";
-		String url = "jdbc:oracle:thin:@" + host + ":" + port + "/" + dbname;
+		String url = "jdbc:mysql://" + host + "/" + dbname + "\"";
 		return (DriverManager.getConnection(url, user, pw));
 	}
 

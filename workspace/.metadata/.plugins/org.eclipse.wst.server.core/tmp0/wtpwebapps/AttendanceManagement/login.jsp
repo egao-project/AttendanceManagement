@@ -23,8 +23,8 @@
         	}
     	}
     	function movePage(path){
-    		document.frm.action = path + ".do";
-    		document.frm.submit();
+    		document.button.action = path + ".do";
+    		document.button.submit();
     	}
 	</script>
 	<img src="./img/egao.png" alt="eGAOロゴ" id="rogo">
@@ -36,7 +36,7 @@
 			<tr>
 				<td>社 員 番 号：
 				<td><input type="text" name="empNum" onkeyup="nextFocus(0,maxLength)"
-						size="15" maxlength="3" placeholder="010">
+						size="15" maxlength="4" placeholder="E010">
 			<tr>
 				<td>パスワード ：
 				<td><input type="text" name="empPass" onkeyup="nextFocus(1,maxLength)"
@@ -46,8 +46,8 @@
 			<tr>
 				<td colspan="2" height="10xp">
 			<tr>
-				<td><html:button value="Login" property="Login_Nomal" onclick="movePage(Login_Nomal)" styleId="button" />
-				<td><html:button value="Admin" property="Login_Admin" onclick="movePage(Login_Admin)" styleId="button" />
+				<td><html:button value="Login" property="Login_Nomal" onclick="movePage('Login_Nomal')"  styleId="button" />
+				<td><html:button value="Admin" property="Login_Admin" onclick="movePage('Login_Admin')"  styleId="button" />
 		</table>
 	</div>
 </body>

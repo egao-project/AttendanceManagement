@@ -123,9 +123,9 @@
              Documentation at: /docs/config/valve.html
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
-        
 
-      <Context docBase="C:\Users\博昭\Desktop\AttendanceManagement\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\Users\博昭\Desktop\AttendanceManagement\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\AttendanceManagement" path="/AttendanceManagement" reloadable="true" source="org.eclipse.jst.jee.server:AttendanceManagement"/><Context docBase="C:\Users\博昭\Desktop\AttendanceManagement\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\CatalogSample" path="/CatalogSample" reloadable="true" source="org.eclipse.jst.jee.server:CatalogSample"/><Context docBase="C:\Users\博昭\Desktop\AttendanceManagement\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Kadai" path="/HelloStruts" reloadable="true" source="org.eclipse.jst.jee.server:Kadai"/></Host>
+
+      <Context docBase="C:\AttendanceManagement\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\AttendanceManagement\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\AttendanceManagement" path="/AttendanceManagement" reloadable="true" source="org.eclipse.jst.jee.server:AttendanceManagement"/><Context docBase="C:\AttendanceManagement\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\CatalogSample" path="/CatalogSample" reloadable="true" source="org.eclipse.jst.jee.server:CatalogSample"/><Context docBase="C:\AttendanceManagement\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Kadai" path="/HelloStruts" reloadable="true" source="org.eclipse.jst.jee.server:Kadai"/></Host>
     </Engine>
   </Service>
 </Server>
