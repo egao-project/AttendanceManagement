@@ -31,23 +31,23 @@ public class Work_Start extends Action {
 
 		// 現在時間の取得とフォームへセット
 		Calendar now = Calendar.getInstance();
-		int nowYear = now.get(Calendar.YEAR); 	// 現在 年
-		int nowMonth = now.get(Calendar.MONTH); // 現在 月
-		int nowDay = now.get(Calendar.DATE); 	// 現在 日
-		int nowHour = now.get(Calendar.HOUR_OF_DAY); // 現在 時
-		int nowMinute = now.get(Calendar.MINUTE); // 現在 分
-		queryForm.setNowHour(String.valueOf(nowHour)); // 現在時をStringでAM_formにセット
-		if (nowMinute == 0) { // 現在分をStringでAM_formにセット(0なら00で)
+		int nowYear = now.get(Calendar.YEAR); 			// 現在 年
+		int nowMonth = now.get(Calendar.MONTH); 		// 現在 月
+		int nowDay = now.get(Calendar.DATE); 			// 現在 日
+		int nowHour = now.get(Calendar.HOUR_OF_DAY); 	// 現在 時
+		int nowMinute = now.get(Calendar.MINUTE); 		// 現在 分
+		if (nowMinute == 0) { 							// 現在 分をStringでAM_formにセット(0なら00で)
 			String nowMinute_0 = nowMinute + "0";
 			queryForm.setNowMinute(nowMinute_0);
 		} else {
 			queryForm.setNowMinute(String.valueOf(nowMinute));
 		}
-		// 比較検索用の変数を用意
+
+		// 現在年月日を指定の書式にする 例)2015-06-17
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String today = sdf.format(now.getTime());
 
-		// 現在時間を指定の書式にする 例)25:59
+		// 現在時間を指定の書式にする 例)23:59
 		String nowTime = String.valueOf(nowHour) + ":" + String.valueOf(nowMinute);
 
 		// 繰り上げ用の時間
@@ -68,7 +68,7 @@ public class Work_Start extends Action {
 			startHour_i = nowHour + 1;
 		}
 
-		// 15分単位の時間を指定の書式にする 例)25:59
+		// 15分単位の時間を指定の書式にする 例)18:45
 		String startTime = String.valueOf(startHour_i) + ":" + startMinute;
 
 		// 出勤時間のSQL文

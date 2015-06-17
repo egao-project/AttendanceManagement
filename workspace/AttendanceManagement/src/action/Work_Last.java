@@ -31,29 +31,19 @@ public class Work_Last extends Action {
 
 		// 現在時間の取得とフォームへセット
 		Calendar now = Calendar.getInstance();
-		int nowYear = now.get(Calendar.YEAR); 	// 現在 年
-		int nowMonth = now.get(Calendar.MONTH); // 現在 月
-		int nowDay = now.get(Calendar.DATE); 	// 現在 日
-		int nowHour = now.get(Calendar.HOUR_OF_DAY); // 現在 時
-		int nowMinute = now.get(Calendar.MINUTE); // 現在 分
-		queryForm.setNowHour(String.valueOf(nowHour)); // 現在時をStringでAM_formにセット
-		if (nowMinute == 0) { // 現在分をStringでAM_formにセット(0なら00で)
-			String nowMinute_0 = nowMinute + "0";
-			queryForm.setNowMinute(nowMinute_0);
-		} else {
-			queryForm.setNowMinute(String.valueOf(nowMinute));
-		}
+		int nowHour = now.get(Calendar.HOUR_OF_DAY); 	// 現在 時
+		int nowMinute = now.get(Calendar.MINUTE); 		// 現在 分
 
-		// 比較検索用の変数を用意
+		// 現在年月日を指定の書式にする 例)2015-06-17
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String today = sdf.format(now.getTime());
 
-		// 現在時間を指定の書式にする 例)25:59
+		// 現在時間を指定の書式にする 例)23:59
 		String nowTime = String.valueOf(nowHour) + ":" + String.valueOf(nowMinute);
 
 		// 繰り上げ用の時間
-		int lastHour_i = nowHour; // 繰上げ 時
-		String lastMinute = null; // 繰上げ 分
+		int lastHour_i = nowHour; 		// 繰上げ 時
+		String lastMinute = null; 		// 繰上げ 分
 
 		// 15分単位の時間に変更
 		if (nowMinute == 0) {
@@ -69,13 +59,14 @@ public class Work_Last extends Action {
 			lastHour_i = nowHour + 1;
 		}
 
-		// 15分単位の時間を指定の書式にする 例)25:59
+		// 15分単位の時間を指定の書式にする 例)18:45
 		String lastTime = String.valueOf(lastHour_i) + ":" + lastMinute;
 
-		String sql = "INSERT INTO work_info (emp_no, date, work_year, work_month, work_day, work_start, real_start) "
-				+ "VALUES ('" + empNum + "'," + today + "," + nowYear + "," + nowMonth + "," + nowDay + ",'" + lastTime + "','" + nowTime + "');";
+		// 退勤時間のSQL文
+		String sql = "UPDATE attendance_management.work_info SET work_last = '" + lastTime + "',real_last = '" + nowTime + "' "
+					+ "WHERE emp_no = '" + empNum + "' AND date = '" + today + "';";
 
-		// DB接続
+		// DB接続とSQL文の発行
 		try (Connection con = DBConnect.getConnect();
 			Statement stmt = con.createStatement()) {
 			stmt.executeUpdate(sql);
