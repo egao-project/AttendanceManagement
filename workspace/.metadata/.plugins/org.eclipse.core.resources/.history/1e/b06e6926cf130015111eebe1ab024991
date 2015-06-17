@@ -1,0 +1,64 @@
+package action;
+
+import java.util.Calendar;
+
+public class Time_get {
+	int nH = 0;
+	int nM = 0;
+	int sH = 0;
+	int sM = 0;
+
+	public Time_get() {
+		// 現在時間
+		Calendar now = Calendar.getInstance();
+		nH = now.get(now.HOUR_OF_DAY); // 現在 時
+		nM = now.get(now.MINUTE); // 現在 分
+
+		// 繰り上げ用の時間
+		int sH = nH; // 繰上げ 時
+		int sM = 0; // 繰上げ 分
+
+		// 15分単位の時間に変更
+		if (// 15分単位の時間に変更
+		if (nowMinute == 0) {
+			startMinute = 0;
+		} else if (nowMinute <= 15) {
+			startMinute = 15;
+		} else if (nowMinute <= 30) {
+			startMinute = 30;
+		} else if (nowMinute <= 45) {
+			startMinute = 45;
+		} else {
+			startMinute = 0;
+			startHour = nowHour + 1;
+		} == 0) {
+			startMinute = 0;
+		} else if (nowMinute <= 15) {
+			startMinute = 15;
+		} else if (nowMinute <= 30) {
+			startMinute = 30;
+		} else if (nowMinute <= 45) {
+			startMinute = 45;
+		} else {
+			startMinute = 0;
+			startHour = nowHour + 1;
+		}
+	}
+
+	public int nowHour() {
+		return (nH);
+	}
+
+	public int nowMinute() {
+		return (nM);
+	}
+
+	public int startHour() {
+		return (sH);
+	}
+
+	public int startMinute() {
+		return (sM);
+	}
+
+}

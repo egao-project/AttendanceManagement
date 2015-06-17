@@ -1,0 +1,21 @@
+package test;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+
+		int n = 5;
+		
+		for(int i = n - 1; i >= 0; i--){
+			for(int j = 0; j < j+1; j++)
+				System.out.print(" ");
+			for(int j = 0; j < n-1; j++)
+				System.out.print("*");
+			System.out.println();
+		}
+		
+		
+		
+	}
+}

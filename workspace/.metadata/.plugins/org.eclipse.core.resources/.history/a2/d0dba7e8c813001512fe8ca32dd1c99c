@@ -1,0 +1,31 @@
+import java.util.Calendar;
+
+
+public class Aaaaaaaa {
+
+	public static void main(String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+
+		//現在時間を取得
+		Calendar now = Calendar.getInstance();
+		int nowHour = now.get(now.HOUR_OF_DAY);
+		int nowMinute = now.get(now.MINUTE);
+
+		//15分単位の時間に変更
+		if(nowMinute == 00){
+			nowMinute = 00;
+		} else if (nowMinute <= 15){
+			nowMinute = 15;
+		} else if (nowMinute <= 30){
+			nowMinute = 30;
+		} else if (nowMinute <= 45){
+			nowMinute = 45;
+		} else {
+			nowMinute = 00;
+			nowHour += 1;
+		}
+
+		System.out.println(nowHour + ":" + nowMinute);
+	}
+
+}

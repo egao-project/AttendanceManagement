@@ -1,0 +1,35 @@
+package action.form;
+
+import org.apache.struts.validator.ValidatorForm;
+
+public class AM_form extends ValidatorForm{
+
+	private static final long serialVersionUID = 1L;
+
+	private String name;	// –¼‘O
+	private int empNum;		// Ğˆõ”Ô†
+
+	public AM_form(){
+		name = null;
+		empNum = 0;
+
+	}
+
+	// Ğˆõ”Ô†
+	public String getEmpNum() {
+		return (empNum);
+	}
+	public void setEmpNum(String empNum) {
+		this.empNum = empNum;
+	}
+
+
+	// –¼‘O
+	public String getName() {
+		return (name);
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+
+}

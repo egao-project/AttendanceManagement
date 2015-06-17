@@ -1,0 +1,78 @@
+package lib;
+
+import lib.Input;
+
+public class P5_20150313 {
+
+	public static void main(String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+
+		//第5章　通過テスト
+		
+		
+		//P5-1
+		System.out.println("start");
+		int m,n;
+		for(int i=0; i<3; i++){
+			m 	   = Input.getInt();
+			n  	   = Input.getInt();
+			int mn = n % m;
+			System.out.println(mn);
+		}
+		System.out.println("end");
+		
+		
+		//P5-2-1
+		int	[] x1 = {102,98,122,-97,88};
+		for(int i=0; i<5; i++){
+			System.out.println(x1[i]);
+		}
+		
+		
+		//P5-2-2
+	    double [] x2 = {12.5,33.5,-12.7,18.4,13.33};
+	    for(int i=0; i<5; i++){
+	    	System.out.println(x2[i]);
+	    }
+	    
+	    
+	    //P5-2-3
+	    String [] x3 = {"赤","青","黄","白","黒"};
+	    for(int i=0; i<5; i++){
+	    	System.out.println(x3[i]);
+	    }
+		
+	
+		//P5-3
+	    int [] y1 = {10, 23, 13, 7, 22};
+	    int [] y2 = {2, 3, 5, 3, 4};
+	    for(int i=0; i<5; i++){
+	    	int y3 = y1[i] + y2[i];
+	    	System.out.println(y1[i] + "+" + y2[i] + "=" + y3);
+	    }
+		
+		
+	    /*
+	     * P5-4-1	B	C
+	     *  
+	     * P5-4-2	D 	E
+	     * 		コンパイルエラーと実行時エラーの区別ができていなかった
+	     */
+	    
+	    //P5-4-1 実証しても結果が10で意味不明…
+	    int t = 0;
+	    for(int i=0; i<5; i++)
+	    	t+=i; System.out.println(t);
+	    
+	    		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+
+}

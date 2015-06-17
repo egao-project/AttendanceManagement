@@ -1,0 +1,12 @@
+127.0.0.1 - - [16/Jun/2015:10:45:46 +0900] "GET / HTTP/1.1" 404 1019
+127.0.0.1 - - [16/Jun/2015:14:58:13 +0900] "GET / HTTP/1.1" 404 1019
+0:0:0:0:0:0:0:1 - - [16/Jun/2015:14:58:15 +0900] "GET /HelloStruts/main.jsp HTTP/1.1" 200 913
+0:0:0:0:0:0:0:1 - - [16/Jun/2015:14:58:15 +0900] "GET /HelloStruts/css.css HTTP/1.1" 200 1092
+0:0:0:0:0:0:0:1 - - [16/Jun/2015:14:58:15 +0900] "GET /favicon.ico HTTP/1.1" 404 1041
+0:0:0:0:0:0:0:1 - - [16/Jun/2015:14:58:19 +0900] "POST /HelloStruts/Kadai.do;jsessionid=3FE27303159C83358C841BDD8060F015 HTTP/1.1" 500 3453
+127.0.0.1 - - [16/Jun/2015:15:00:04 +0900] "GET / HTTP/1.1" 404 1019
+0:0:0:0:0:0:0:1 - - [16/Jun/2015:15:00:04 +0900] "GET /HelloStruts/WEB-INF/classes/action/CopyOfKadaiAction.java HTTP/1.1" 404 1017
+0:0:0:0:0:0:0:1 - - [16/Jun/2015:15:00:11 +0900] "GET /HelloStruts/main.jsp HTTP/1.1" 200 913
+0:0:0:0:0:0:0:1 - - [16/Jun/2015:15:00:11 +0900] "GET /HelloStruts/css.css HTTP/1.1" 200 1092
+0:0:0:0:0:0:0:1 - - [16/Jun/2015:15:00:11 +0900] "GET /favicon.ico HTTP/1.1" 404 1041
+0:0:0:0:0:0:0:1 - - [16/Jun/2015:15:00:16 +0900] "POST /HelloStruts/Kadai.do;jsessionid=556A9CE5B94C8272AE50DFCDFAD6D74A HTTP/1.1" 500 3453

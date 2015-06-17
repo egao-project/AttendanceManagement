@@ -1,0 +1,68 @@
+package lib;
+
+public class Test6 {
+
+	public static void main(String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+
+		
+		//	第6章　通過テスト
+		
+		
+		//	1
+		
+		double [] a1 	= {12.3, 13.5, 12.2, 13.0, 12.8, 12.3};
+		double totalA1	= 0;
+		for(int i=0; i<a1.length; i++){
+			totalA1	+=	a1[i];
+		}
+		double meanA1	=	totalA1 / a1.length;
+		System.out.println("合計＝"+	totalA1);
+		System.out.println("平均＝"+	meanA1);
+		
+		for(double aa : a1){
+			System.out.print(aa+ " ");
+		}
+		
+		
+		System.out.println(" ");			//改行
+		System.out.println(" ");			//改行
+		
+		
+		//	2
+		String [] name	=	{"田中", "中村", "鈴木", "山本", "本田"};		//(1)
+		double [] language	=	{82, 85, 74, 90, 70};						//(2)
+		double [] english	=	{70, 74, 88, 74, 82};						//(3)
+		
+		double languageTotal = 0;											//(4)
+		for(int i=0; i<language.length; i++){
+			languageTotal +=language[i];
+		}
+		double languageAverage =	languageTotal / language.length;
+		System.out.println("国語平均＝"+ languageAverage);
+		
+		
+		double englishTotal	=	0;										//(5)
+		for(int i=0; i<english.length; i++){
+			englishTotal	+=	english[i];
+		}
+		double englishAverage	=	englishTotal / english.legth;
+		System.out.println("英語平均＝" +englishAverage);
+		
+		
+		for(itn i=0; i<name.length; i++){
+			System.out.pritnln(name[i] + ":" + language[i] + endlish[i]);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+
+}

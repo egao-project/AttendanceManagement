@@ -1,0 +1,13 @@
+127.0.0.1 - - [13/Jun/2015:15:26:30 +0900] "GET / HTTP/1.1" 404 1019
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:26:31 +0900] "GET /AttendanceManagement/login.jsp HTTP/1.1" 200 1871
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:26:31 +0900] "GET /AttendanceManagement/img/egao.png HTTP/1.1" 200 66399
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:26:31 +0900] "GET /AttendanceManagement/css.css HTTP/1.1" 200 1463
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:26:32 +0900] "GET /favicon.ico HTTP/1.1" 404 1041
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:28:37 +0900] "GET /AttendanceManagement/admin.jsp HTTP/1.1" 200 1712
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:28:37 +0900] "GET /favicon.ico HTTP/1.1" 404 1041
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:29:23 +0900] "GET /AttendanceManagement/main.jsp HTTP/1.1" 200 1722
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:30:00 +0900] "GET /AttendanceManagement/login.jsp HTTP/1.1" 200 1871
+127.0.0.1 - - [13/Jun/2015:15:37:42 +0900] "GET / HTTP/1.1" 404 1019
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:37:44 +0900] "GET /HelloStruts/main.jsp HTTP/1.1" 200 913
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:37:44 +0900] "GET /HelloStruts/css.css HTTP/1.1" 200 1092
+0:0:0:0:0:0:0:1 - - [13/Jun/2015:15:39:02 +0900] "POST /HelloStruts/Kadai.do;jsessionid=FB8E82CB7780C69F3F979456026B184C HTTP/1.1" 200 942

@@ -1,0 +1,39 @@
+import java.util.Calendar;
+
+public class Aaaaaaaa {
+
+	public static void main(String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+
+		// 現在時間
+		int nowHour   = 11; // 現在 時
+		int nowMinute = 45; // 現在 分
+
+		// 繰り上げ用の時間
+		int startHour = nowHour;
+		int startMinute = 0;
+
+		// 15分単位の時間に変更
+		if (nowMinute == 0) {
+			startMinute = 0;
+		} else if (nowMinute <= 15) {
+			startMinute = 15;
+		} else if (nowMinute <= 30) {
+			startMinute = 30;
+		} else if (nowMinute <= 45) {
+			startMinute = 45;
+		} else {
+			startMinute = 0;
+			startHour = nowHour + 1;
+		}
+
+		if (startMinute == 0) {
+			String nm = startMinute + "0";
+			System.out.println(startHour + ":" + nm);
+		} else {
+			System.out.println(startHour + ":" + startMinute);
+		}
+
+	}
+
+}

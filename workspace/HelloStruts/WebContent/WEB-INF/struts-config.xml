@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts-config PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+   "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+    <!-- Form情報の定義 -->
+    <form-beans>
+        <!-- HelloWorldFormという名前(キー)で action.form.HelloWorldFormクラスを利用する -->
+        <form-bean name="HelloWorldForm" type="action.form.HelloWorldForm" />
+    </form-beans>
+    <!-- アクションの定義 -->
+    <action-mappings>
+        <!-- Form情報をHelloWorldForm、action.HelloWorldActionをアクションとして指定 -->
+        <!-- Form情報はリクエストスコープに格納される -->
+        <action name="HelloWorldForm" type="action.HelloWorldAction"
+            path="/HelloWorld" scope="request">
+            <!-- 遷移先として論理名をhello、 ファイルパスを/HelloWorld.jspとする -->
+            <forward name="hello" path="/HelloWorld.jsp" />
+        </action>
+    </action-mappings>
+    <message-resources parameter="ApplicationResources" />
+</struts-config>

@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+
+body {
+	text-align:center;
+	}
+
+#rogo {
+	max-width: 100%; /* 最大幅 */
+	min-width: 25%; /* 最小幅 */
+	border: none;
+}
+
+#submit_button {
+	width: auto;
+    padding:0;
+    margin:0;
+    background:none;
+    border:0;
+    font-size:0;
+    line-height:0;
+    overflow:visible;
+    cursor:pointer;
+}
+
+#text {
+	 font-size : 1em;
+}
+
+#time_button {
+	width: auto;
+    padding:0;
+    margin:0;
+    background:none;
+    border:0;
+    font-size:0;
+    line-height:0;
+    overflow:visible;
+    cursor:pointer;
+}
+
+div {
+	text-align:center;
+}
+
+#table {
+	margin-left:auto;margin-right:auto;
+}
+
+#table_1 {
+	text-align:right;
+	margin-left:auto;margin-right:auto;
+}
+
+caption {
+	color: blue;
+	font:150% blue bold sans-serif;
+}
+
+#submit_Login {
+	color:orange;
+	background:url('./img/login.png');
+	width:88px;
+	height:31px;
+	border:0px
+	solid;
+	cursor:pointer;
+}
+
+#submit_Admin {
+	background:url('./img/admin.png');
+	width:88px;
+	height:31px;
+	border:0px
+	solid;
+	cursor:pointer;
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="コンパイル単位名 &apos;lib.ex2.java&apos; を &apos;Ex2.java&apos; に変更&#x0D;&#x0A;- 元のプロジェクト: &apos;j02&apos;&#x0D;&#x0A;- オリジナル要素: &apos;lib.ex2.java&apos;&#x0D;&#x0A;- 名前変更済み要素: &apos;lib.Ex2.java&apos;" description="コンパイル単位名 &apos;ex2.java&apos; を変更します" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;lib{ex2.java" name="Ex2.java" references="false" stamp="1428034337706" version="1.0"/>
+</session>
