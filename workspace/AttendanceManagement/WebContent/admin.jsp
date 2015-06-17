@@ -25,7 +25,7 @@
 				<td colspan="2" height="10xp">
 			<tr>
 				<td>社 員 番 号：
-				<td><input type="text" name="EmployeeNumber" maxlength="3" placeholder="010">
+				<td><input type="text" name="EmployeeNumber" maxlength="4" placeholder="010">
 			<tr>
 				<td colspan="2" height="5xp">
 			<tr>
