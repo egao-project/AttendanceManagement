@@ -3,6 +3,7 @@ package action;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,9 @@ public class Work_Start extends Action {
 		} else {
 			queryForm.setNowMinute(String.valueOf(nowMinute));
 		}
+		// 比較検索用の変数を用意
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String today = sdf.format(now.getTime());
 
 		// 現在時間を指定の書式にする 例)25:59
 		String nowTime = String.valueOf(nowHour) + ":" + String.valueOf(nowMinute);
@@ -69,7 +73,7 @@ public class Work_Start extends Action {
 
 		// 出勤時間のSQL文
 		String sql = "INSERT INTO work_info (emp_no, date, work_year, work_month, work_day, work_start, real_start) "
-				+ "VALUES ('" + empNum + "',cast( now() as date)," + nowYear + "," + nowMonth + "," + nowDay + ",'" + startTime + "','" + nowTime + "');";
+				+ "VALUES ('" + empNum + "'," + today + "," + nowYear + "," + nowMonth + "," + nowDay + ",'" + startTime + "','" + nowTime + "');";
 
 		// DB接続
 		try (Connection con = DBConnect.getConnect();
