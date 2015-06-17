@@ -14,4 +14,6 @@
 <fullyQualifiedTypeName name="org.apache.struts.taglib.html.SubmitTag"/>
 <fullyQualifiedTypeName name="javax.servlet.jsp.JspException"/>
 <fullyQualifiedTypeName name="org.apache.struts.taglib.TagUtils"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="util.DBConnect"/>
 </qualifiedTypeNameHistroy>

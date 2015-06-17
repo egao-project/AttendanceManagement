@@ -71,7 +71,7 @@ caption {
 	font:150% blue bold sans-serif;
 }
 
-#button {
+.button {
 	color:black;
 	background-color:orange;
 	border:1px solid;
@@ -82,12 +82,12 @@ caption {
 	font-size: 120%;
 }
 
-#button:hover {
+.button:hover {
 	background-color: #00ff00;
 	letter-spacing: 2px;
 }
 
-#button_work {
+.button_work {
 	color:black;
 	background-color:#00ff00;
 	border:1px solid;
@@ -98,7 +98,7 @@ caption {
 	font-size: 120%;
 }
 
-#button_work:hover {
+.button_work:hover {
 	background-color: orange;
 	letter-spacing: 2px;
 }

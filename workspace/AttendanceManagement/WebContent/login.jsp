@@ -46,8 +46,8 @@
 			<tr>
 				<td colspan="2" height="10xp">
 			<tr>
-				<td><html:button value="Login" property="Login_Nomal" onclick="movePage('Login_Nomal')"  styleId="button" />
-				<td><html:button value="Admin" property="Login_Admin" onclick="movePage('Login_Admin')"  styleId="button" />
+				<td><html:button value="Login" property="Login_Nomal" onclick="movePage('Login_Nomal')"  styleId="button" styleClass="button" />
+				<td><html:button value="Admin" property="Login_Admin" onclick="movePage('Login_Admin')"  styleId="button" styleClass="button" />
 		</table>
 	</div>
 </body>

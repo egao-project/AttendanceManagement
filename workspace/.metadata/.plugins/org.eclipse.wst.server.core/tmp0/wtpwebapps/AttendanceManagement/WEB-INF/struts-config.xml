@@ -34,7 +34,7 @@
         		type="action.Work_Start"
         		name="AMForm"
         		scope="session"
-        		validate="true"
+        		validate="false"
         		input="/main.jsp">
             <forward name="Start" path="/main.jsp" />
         </action>

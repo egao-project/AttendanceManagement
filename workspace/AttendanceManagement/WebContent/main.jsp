@@ -3,7 +3,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
+<html:html>
 
 <head>
 	<meta http-equiv="content-type" content="text/css; charset=UTF-8" />
@@ -15,21 +15,25 @@
 
 <body>
 	<script type="text/javascript">
-    	function movePage(path){
-    		document.button_work.action = path + ".do";
-    		document.button_work.submit();
-    	}
+		function goServletB(){
+		document.getElementById('form').action = '/LastTime';
+		}
+		function goServletC(){
+		document.getElementById('form').action = '/output';
+		}
 	</script>
+
 	<img src="./img/egao.png" alt="eGAOロゴ" id="rogo">
 	<br>
 	<br>
+	<form id="form" name="form" action="/StartTime">
 	<div>
 		<table id="table_main">
 			<caption>滝本博昭 さん</caption>
 			<tr>
-				<td><html:button value="出 勤" property="StartTime" onclick="movePage('StartTime')" styleId="button_work" />
+				<td><html:submit value="出 勤" property="StartTime" styleClass="button_work" />
 				<td width="50px">
-				<td><html:button value="退 勤" property="LastTime" onclick="movePage('LastTime')" styleId="button_work" />
+				<td><html:submit value="退 勤" property="LastTime" onclick="goServletB();" styleClass="button_work" />
 			<tr>
 				<td colspan="3" height="10xp">
 			<tr>
@@ -42,10 +46,10 @@
 				<td><input type="text" name="year"  size="1" maxlength="4" placeholder="2015">年
 					<input type="text" name="month" size="1" maxlength="2" placeholder="6">月
 			<tr>
-				<td><html:button value="戻る"  property="back" onclick="location.href='./login.jsp'" styleId="button" />
+				<td><html:button value="戻る"  property="back" onclick="location.href='./login.jsp'" styleId="button" styleClass="button" />
 				<td width="50px">
-				<td><html:button value="Output" property="output" onclick="movePage('output')" styleId="button" />
+				<td><html:submit value="Output" property="output" onclick="goServletC();" styleClass="button" />
 		</table>
-	</div>
+	</div></form>
 </body>
-</html>
+</html:html>
