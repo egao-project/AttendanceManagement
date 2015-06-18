@@ -6,16 +6,13 @@ public class AM_form extends ValidatorForm{
 
 	private static final long serialVersionUID = 1L;
 
-	private String empNum;		// 社員番号
-	private String empName;		// 名前
-	private String empPass;		// パスワード
-	private String nowHour; 	// 現在 時
-	private String nowMinute;	// 現在 分
-
-	public AM_form(){
-		empName = null;
-		empNum = null;
-	}
+	private String empNum;				// 社員番号
+	private String empName;				// 名前
+	private String empPass;				// パスワード
+	private String nowHour; 			// 現在 時
+	private String nowMinute;			// 現在 分
+	private String message;				// 成功時のメッセージ
+	private String errorMessage;		// 失敗時のメッセージ
 
 	// 社員番号
 	public String getEmpNum() {
@@ -55,5 +52,21 @@ public class AM_form extends ValidatorForm{
 	}
 	public void setNowMinute(String nowMinute) {
 		this.nowMinute = nowMinute;
+	}
+
+	// 成功時のメッセージ
+	public String getMessage() {
+		return (message);
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	// 失敗時のメッセージ
+	public String getErrorMessage() {
+		return (errorMessage);
+	}
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 }

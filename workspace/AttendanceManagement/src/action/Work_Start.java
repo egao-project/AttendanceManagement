@@ -1,6 +1,8 @@
 package action;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -19,21 +21,23 @@ import action.form.AM_form;
 
 public class Work_Start extends Action {
 
-	public ActionForward AM_form(ActionMapping mapping, ActionForm form,
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+
+		System.out.println("S");
 
 		// AM_formとの定義
 		AM_form queryForm = (AM_form) form;
 
 		// 社員番号をAM_formより取得
 //		String empNum = queryForm.getEmpNum();
-		String empNum = "E010";
+		String empNum = "A002";
 
 		// 現在時間の取得とフォームへセット
 		Calendar now = Calendar.getInstance();
 		int nowYear = now.get(Calendar.YEAR); 			// 現在 年
-		int nowMonth = now.get(Calendar.MONTH); 		// 現在 月
+		int nowMonth = now.get(Calendar.MONTH) + 1; 		// 現在 月
 		int nowDay = now.get(Calendar.DATE); 			// 現在 日
 		int nowHour = now.get(Calendar.HOUR_OF_DAY); 	// 現在 時
 		int nowMinute = now.get(Calendar.MINUTE); 		// 現在 分
@@ -72,16 +76,79 @@ public class Work_Start extends Action {
 		// 15分単位の時間を指定の書式にする 例)18:45
 		String startTime = String.valueOf(startHour_i) + ":" + startMinute;
 
-		// 出勤時間のSQL文
+		// 出勤時間のレコード追加のSQL文
 		String sql = "INSERT INTO work_info (emp_no, date, work_year, work_month, work_day, work_start, real_start) "
-				+ "VALUES ('" + empNum + "','" + today + "'," + nowYear + "," + nowMonth + "," + nowDay + ",'" + startTime + "','" + nowTime + "');";
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-		// DB接続
-		try (Connection con = DBConnect.getConnect();
-			Statement stmt = con.createStatement()) {
-			stmt.executeUpdate(sql);
+		// 既存レコードか確認用の件数取得SQL文
+		String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = '" + empNum + "' and date = '" + today + "'";
+
+		Connection con = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		int count;							// 検索用の変数
+		ResultSet rs = null;
+		System.out.println(1);
+
+		// DB
+		try {
+			// DB接続
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			con = DBConnect.getConnect();
+			stmt = con.createStatement();
+			pstmt = con.prepareStatement(sql);
+			System.out.println(2);
+
+			// レコードが既存か確認の為に件数を取得
+			rs = stmt.executeQuery(countSql);
+			rs.next();
+			count = rs.getInt("emp_no");
+			System.out.println(3);
+
+			// レコード追加
+			if (count == 0){
+				pstmt.setString(1, empNum);
+				pstmt.setString(2, today);
+				pstmt.setInt(3, nowYear);
+				pstmt.setInt(4, nowMonth);
+				pstmt.setInt(5, nowDay);
+				pstmt.setString(6, startTime);
+				pstmt.setString(7, nowTime);
+				pstmt.executeUpdate();
+				pstmt.close();
+				queryForm.setMessage(nowTime + "  今日もお願いします！");
+				System.out.println("ok");
+			} else {
+				queryForm.setErrorMessage("既に出社しています");
+				System.out.println("NG");
+			}
 		} catch (SQLException e) {
-			System.err.println(e);
+			System.out.println("catch");
+
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
 		}
 
 		// マッピングに値を返す
