@@ -19,7 +19,7 @@ import org.apache.struts.action.ActionMapping;
 import util.DBConnect;
 import action.form.AM_form;
 
-public class Work_Start extends Action {
+public class Work_Last extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -32,7 +32,7 @@ public class Work_Start extends Action {
 
 		// 社員番号をAM_formより取得
 //		String empNum = queryForm.getEmpNum();
-		String empNum = "A002";
+		String empNum = "A100";
 
 		// 現在時間の取得とフォームへセット
 		Calendar now = Calendar.getInstance();
@@ -77,11 +77,11 @@ public class Work_Start extends Action {
 		String lastTime = String.valueOf(startHour_i) + ":" + startMinute;
 
 		// 退勤時間のレコード追加のSQL文
-		String sql = "UPDATE attendance_management.work_info SET work_last = '" + lastTime + "',real_last = '" + nowTime + "' "
-				+ "WHERE emp_no = '" + empNum + "' AND date = '" + today + "';";
+		String sql = "UPDATE attendance_management.work_info SET work_last = ?, real_last = ? WHERE emp_no = ? AND date = ?";
 
 		// 既存レコードか確認用の件数取得SQL文
-		String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = '" + empNum + "' and date = '" + today + "' and work_last IS NULL";
+		String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info "
+				+ "WHERE emp_no = '" + empNum + "' and date = '" + today + "' and work_last IS NULL;";
 
 		Connection con = null;
 		Statement stmt = null;
@@ -106,20 +106,17 @@ public class Work_Start extends Action {
 			System.out.println(3);
 
 			// レコード追加
-			if (count == 0){
-				pstmt.setString(1, empNum);
-				pstmt.setString(2, today);
-				pstmt.setInt(3, nowYear);
-				pstmt.setInt(4, nowMonth);
-				pstmt.setInt(5, nowDay);
-				pstmt.setString(6, startTime);
-				pstmt.setString(7, nowTime);
+			if (count == 1){
+				pstmt.setString(1, lastTime);
+				pstmt.setString(2, nowTime);
+				pstmt.setString(3, empNum);
+				pstmt.setString(4, today);
 				pstmt.executeUpdate();
 				pstmt.close();
 				queryForm.setMessage(nowTime + "  お疲れ様でした！");
 				System.out.println("ok");
 			} else {
-				queryForm.setErrorMessage("既に退社しています");
+				queryForm.setErrorMessage("既に本日は退社しています");
 				System.out.println("NG");
 			}
 		} catch (SQLException e) {
