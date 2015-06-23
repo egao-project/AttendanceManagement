@@ -3,7 +3,7 @@
 	<section name="CleanDialogSettings">
 		<item value="828" key="DIALOG_WIDTH"/>
 		<item value="true" key="BUILD_ALL"/>
-		<item value="false" key="TOGGLE_SELECTED"/>
+		<item value="true" key="TOGGLE_SELECTED"/>
 		<item value="541" key="DIALOG_HEIGHT"/>
 		<item value="546" key="DIALOG_X_ORIGIN"/>
 		<item value="152" key="DIALOG_Y_ORIGIN"/>
@@ -35,6 +35,7 @@
 	<section name="NewWizardAction">
 		<item value="org.eclipse.jdt.ui.wizards.JavaProjectWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.jdt.ui.java"/>
 		</list>
 	</section>
 	<section name="ChooseWorkspaceDialogSettings">

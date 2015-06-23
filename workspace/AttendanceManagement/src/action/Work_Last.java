@@ -32,7 +32,7 @@ public class Work_Last extends Action {
 
 		// 社員番号をAM_formより取得
 //		String empNum = queryForm.getEmpNum();
-		String empNum = "A100";
+		String empNum = "E010";
 
 		// 現在時間の取得とフォームへセット
 		Calendar now = Calendar.getInstance();

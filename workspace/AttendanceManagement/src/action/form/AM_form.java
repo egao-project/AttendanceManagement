@@ -13,6 +13,8 @@ public class AM_form extends ValidatorForm{
 	private String nowMinute;			// 現在 分
 	private String message;				// 成功時のメッセージ
 	private String errorMessage;		// 失敗時のメッセージ
+	private int output_year;			// Output時の指定年
+	private int output_month;			// Output時の指定月
 
 	// 社員番号
 	public String getEmpNum() {
@@ -68,5 +70,21 @@ public class AM_form extends ValidatorForm{
 	}
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
+	}
+
+	// Output時の指定年
+	public int getOutput_year() {
+		return (output_year);
+	}
+	public void setOutput_yeare(int output_year) {
+		this.output_year = output_year;
+	}
+
+	// Output時の指定月
+	public int getOutput_month() {
+		return (output_month);
+	}
+	public void setOutput_month(int output_month) {
+		this.output_month = output_month;
 	}
 }

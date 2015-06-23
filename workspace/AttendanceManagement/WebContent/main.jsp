@@ -14,15 +14,6 @@
 </head>
 
 <body>
-	<script type="text/javascript">
-		function goServletB(){
-		document.getElementById('form').action = '/LastTime';
-		}
-		function goServletC(){
-		document.getElementById('form').action = '/output';
-		}
-	</script>
-
 	<img src="./img/egao.png" alt="eGAOロゴ" id="rogo">
 	<br>
 	<br>
@@ -39,14 +30,14 @@
 				<td colspan="3" >
 			<tr>
 				<td colspan="3" >message
-			<tr>
+			<tr><html:form action="/output">
 				<td colspan="2">
-				<td><input type="text" name="year"  size="1" maxlength="4" placeholder="2015">年
-					<input type="text" name="month" size="1" maxlength="2" placeholder="6">月
+				<td><input type="text" name="output_year"  size="1" maxlength="4" placeholder="2015">年
+					<input type="text" name="output_month" size="1" maxlength="2" placeholder="6">月
 			<tr>
-				<td><html:button value="戻る"  property="back" onclick="location.href='./login.jsp'" styleId="button" styleClass="button" />
+				<td><html:link href="/login.jsp"><html:button value="戻る"  property="back" onclick="location.href='./login.jsp'" styleId="button" styleClass="button" /></html:link>
 				<td width="50px">
-				<td><html:submit value="Output" property="output" onclick="goServletC();" styleClass="button" />
+				<td><html:submit value="Output" styleClass="button" /></html:form>
 			<tr><td>
 		</table>
 	</div>
