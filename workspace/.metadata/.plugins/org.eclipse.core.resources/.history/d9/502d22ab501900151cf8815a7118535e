@@ -1,0 +1,154 @@
+package action;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
+import util.DBConnect;
+import action.form.AM_form;
+
+public class Work_Last extends Action {
+
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		System.out.println("S");
+
+		// AM_form�Ƃ̒�`
+		AM_form queryForm = (AM_form) form;
+
+		// �Ј��ԍ���AM_form���擾
+//		String empNum = queryForm.getEmpNum();
+		String empNum = "E010";
+
+		// ���ݎ��Ԃ̎擾�ƃt�H�[���փZ�b�g
+		Calendar now = Calendar.getInstance();
+		int nowYear = now.get(Calendar.YEAR); 			// ���� �N
+		int nowMonth = now.get(Calendar.MONTH) + 1; 	// ���� ��
+		int nowDay = now.get(Calendar.DATE); 			// ���� ��
+		int nowHour = now.get(Calendar.HOUR_OF_DAY); 	// ���� ��
+		int nowMinute = now.get(Calendar.MINUTE); 		// ���� ��
+		if (nowMinute == 0) { 							// ���� ����String��AM_form�ɃZ�b�g(0�Ȃ�00��)
+			String nowMinute_0 = nowMinute + "0";
+			queryForm.setNowMinute(nowMinute_0);
+		} else {
+			queryForm.setNowMinute(String.valueOf(nowMinute));
+		}
+
+		// ���ݔN�������w��̏����ɂ��� ��)2015-06-17
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String today = sdf.format(now.getTime());
+
+		// ���ݎ��Ԃ��w��̏����ɂ��� ��)23:59
+		String nowTime = String.valueOf(nowHour) + ":" + String.valueOf(nowMinute);
+
+		// �J��グ�p�̎���
+		int startHour_i = nowHour; // �J�グ ��
+		String startMinute = null; // �J�グ ��
+
+		// 15���P�ʂ̎��ԂɕύX
+		if (nowMinute == 0) {
+			startMinute = "00";
+		} else if (nowMinute <= 15) {
+			startMinute = "15";
+		} else if (nowMinute <= 30) {
+			startMinute = "30";
+		} else if (nowMinute <= 45) {
+			startMinute = "45";
+		} else {
+			startMinute = "00";
+			startHour_i = nowHour + 1;
+		}
+
+		// 15���P�ʂ̎��Ԃ��w��̏����ɂ��� ��)18:45
+		String lastTime = String.valueOf(startHour_i) + ":" + startMinute;
+
+		// �ދΎ��Ԃ̃��R�[�h�ǉ���SQL��
+		String sql = "UPDATE attendance_management.work_info SET work_last = ?, real_last = ? WHERE emp_no = ? AND date = ?";
+
+		// �������R�[�h���m�F�p�̌����擾SQL��
+		String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info "
+				+ "WHERE emp_no = '" + empNum + "' and date = '" + today + "' and work_last IS NULL;";
+
+		Connection con = null;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		int count;							// �����p�̕ϐ�
+		ResultSet rs = null;
+		System.out.println(1);
+
+		// DB
+		try {
+			// DB�ڑ�
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			con = DBConnect.getConnect();
+			stmt = con.createStatement();
+			pstmt = con.prepareStatement(sql);
+			System.out.println(2);
+
+			// ���R�[�h���������m�F�ׂ̈Ɍ������擾
+			rs = stmt.executeQuery(countSql);
+			rs.next();
+			count = rs.getInt("emp_no");
+			System.out.println(3);
+
+			// ���R�[�h�ǉ�
+			if (count == 1){
+				pstmt.setString(1, lastTime);
+				pstmt.setString(2, nowTime);
+				pstmt.setString(3, empNum);
+				pstmt.setString(4, today);
+				pstmt.executeUpdate();
+				pstmt.close();
+				queryForm.setMessage1(nowTime + "  �����l�ł����I");
+				System.out.println("ok");
+			} else {
+				queryForm.setErrorMessage("���ɖ{���͑ގЂ��Ă��܂�");
+				System.out.println("NG");
+			}
+		} catch (SQLException e) {
+			System.out.println("catch");
+
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+		}
+
+		// �}�b�s���O�ɒl��Ԃ�
+		return (mapping.findForward("Last"));
+	}
+}

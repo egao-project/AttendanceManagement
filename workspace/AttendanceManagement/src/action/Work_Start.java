@@ -21,45 +21,46 @@ import action.form.AM_form;
 
 public class Work_Start extends Action {
 
+	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
 		System.out.println("S");
 
-		// AM_form‚Æ‚Ì’è‹`
+		// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«å€¤ã‚’æ ¼ç´ã™ã‚‹ç‚ºã«å®šç¾©
 		AM_form queryForm = (AM_form) form;
 
-		// Ğˆõ”Ô†‚ğAM_form‚æ‚èæ“¾
-//		String empNum = queryForm.getEmpNum();
-		String empNum = "E010";
+		// ç¤¾å“¡ç•ªå·ã®å–å¾—
+		String empNum = queryForm.getEmpNum();
+//		String empNum = "E010";
 
-		// Œ»İŠÔ‚Ìæ“¾‚ÆƒtƒH[ƒ€‚ÖƒZƒbƒg
+		// ç¾åœ¨æ—¥æ™‚
 		Calendar now = Calendar.getInstance();
-		int nowYear = now.get(Calendar.YEAR); 			// Œ»İ ”N
-		int nowMonth = now.get(Calendar.MONTH) + 1; 	// Œ»İ Œ
-		int nowDay = now.get(Calendar.DATE); 			// Œ»İ “ú
-		int nowHour = now.get(Calendar.HOUR_OF_DAY); 	// Œ»İ 
-		int nowMinute = now.get(Calendar.MINUTE); 		// Œ»İ •ª
-		if (nowMinute == 0) { 							// Œ»İ •ª‚ğString‚ÅAM_form‚ÉƒZƒbƒg(0‚È‚ç00‚Å)
-			String nowMinute_0 = nowMinute + "0";
+		int nowYear = now.get(Calendar.YEAR); 			// ç¾åœ¨ å¹´
+		int nowMonth = now.get(Calendar.MONTH) + 1; 	// ç¾åœ¨ æœˆ
+		int nowDay = now.get(Calendar.DATE); 			// ç¾åœ¨ æ—¥
+		int nowHour = now.get(Calendar.HOUR_OF_DAY); 	// ç¾åœ¨ æ™‚
+		int nowMinute = now.get(Calendar.MINUTE); 		// ç¾åœ¨ åˆ†
+		if (nowMinute == 0) { 							// åˆ†ãŒ0ã®éš›ã¯00ã¨ã—ã€ãƒ•ã‚©ãƒ¼ãƒ ã«æ ¼ç´
+			String nowMinute_0 = "00";
 			queryForm.setNowMinute(nowMinute_0);
 		} else {
 			queryForm.setNowMinute(String.valueOf(nowMinute));
 		}
 
-		// Œ»İ”NŒ“ú‚ğw’è‚Ì‘®‚É‚·‚é —á)2015-06-17
+		// ç¾åœ¨ã®å¹´æœˆæ—¥ã‚’æŒ‡å®šæ›¸å¼ã«å¤‰æ› ä¾‹)2015-06-17
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String today = sdf.format(now.getTime());
 
-		// Œ»İŠÔ‚ğw’è‚Ì‘®‚É‚·‚é —á)23:59
+		// ç¾åœ¨æ—¥æ™‚ã‚’æŒ‡å®šæ›¸å¼ã«å¤‰æ› ä¾‹)23:59
 		String nowTime = String.valueOf(nowHour) + ":" + String.valueOf(nowMinute);
 
-		// ŒJ‚èã‚°—p‚ÌŠÔ
-		int startHour_i = nowHour; // ŒJã‚° 
-		String startMinute = null; // ŒJã‚° •ª
+		// é–‹å§‹æ™‚é–“
+		int startHour = nowHour; // é–‹å§‹ æ™‚
+		String startMinute = null; // é–‹å§‹ åˆ†
 
-		// 15•ª’PˆÊ‚ÌŠÔ‚É•ÏX
+		// 15åˆ†å˜ä½ã«å¤‰æ›
 		if (nowMinute == 0) {
 			startMinute = "00";
 		} else if (nowMinute <= 15) {
@@ -70,42 +71,42 @@ public class Work_Start extends Action {
 			startMinute = "45";
 		} else {
 			startMinute = "00";
-			startHour_i = nowHour + 1;
+			startHour = nowHour + 1;
 		}
 
-		// 15•ª’PˆÊ‚ÌŠÔ‚ğw’è‚Ì‘®‚É‚·‚é —á)18:45
-		String startTime = String.valueOf(startHour_i) + ":" + startMinute;
+		// 15åˆ†å˜ä½ã®String ä¾‹)10:45
+		String startTime = String.valueOf(startHour) + ":" + startMinute;
 
-		// o‹ÎŠÔ‚ÌƒŒƒR[ƒh’Ç‰Á‚ÌSQL•¶
+		// å‡ºå‹¤ãƒ¬ã‚³ãƒ¼ãƒ‰è¿½åŠ ã®SQLæ–‡
 		String sql = "INSERT INTO work_info (emp_no, date, work_year, work_month, work_day, work_start, real_start) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-		// Šù‘¶ƒŒƒR[ƒh‚©Šm”F—p‚ÌŒ”æ“¾SQL•¶
+		// æ—¢å­˜ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒç„¡ã„ã‹æ¤œç´¢ç”¨ã®SQLæ–‡
 		String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = '" + empNum + "' and date = '" + today + "'";
 
 		Connection con = null;
 		Statement stmt = null;
 		PreparedStatement pstmt = null;
-		int count;							// ŒŸõ—p‚Ì•Ï”
+		int count;							// æ¤œç´¢ç”¨å¤‰æ•°
 		ResultSet rs = null;
 		System.out.println(1);
 
 		// DB
 		try {
-			// DBÚ‘±
+			// DBæ¥ç¶š
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			con = DBConnect.getConnect();
 			stmt = con.createStatement();
 			pstmt = con.prepareStatement(sql);
 			System.out.println(2);
 
-			// ƒŒƒR[ƒh‚ªŠù‘¶‚©Šm”F‚Ìˆ×‚ÉŒ”‚ğæ“¾
+			// æ—¢å­˜ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æ¤œç´¢
 			rs = stmt.executeQuery(countSql);
 			rs.next();
 			count = rs.getInt("emp_no");
 			System.out.println(3);
 
-			// ƒŒƒR[ƒh’Ç‰Á
+			// ãƒ¬ã‚³ãƒ¼ãƒ‰è¿½åŠ 
 			if (count == 0){
 				pstmt.setString(1, empNum);
 				pstmt.setString(2, today);
@@ -116,10 +117,10 @@ public class Work_Start extends Action {
 				pstmt.setString(7, nowTime);
 				pstmt.executeUpdate();
 				pstmt.close();
-				queryForm.setMessage(nowTime + "  ¡“ú‚à‚¨Šè‚¢‚µ‚Ü‚·I");
+				queryForm.setMessage1(nowTime + "  æœ¬æ—¥ã‚‚ãŠé¡˜ã„ã—ã¾ã™ï¼");
 				System.out.println("ok");
 			} else {
-				queryForm.setErrorMessage("Šù‚ÉoĞ‚µ‚Ä‚¢‚Ü‚·");
+				queryForm.setErrorMessage("æ—¢ã«å‡ºç¤¾ã—ã¦ã„ã¾ã™");
 				System.out.println("NG");
 			}
 		} catch (SQLException e) {
@@ -151,7 +152,7 @@ public class Work_Start extends Action {
 			}
 		}
 
-		// ƒ}ƒbƒsƒ“ƒO‚É’l‚ğ•Ô‚·
+		// ãƒãƒƒãƒ”ãƒ³ã‚°ã«å€¤ã‚’è¿”ã™
 		return (mapping.findForward("Start"));
 	}
 }

@@ -19,7 +19,7 @@
 	<br>
 	<div>
 		<table id="table_main">
-			<caption>滝本博昭 さん</caption>
+			<caption><bean:write name="AMForm" property="empName" />さん</caption>
 			<tr>
 				<td><html:link href="http://localhost:8080/AttendanceManagement/StartTime.do"><html:button value="出 勤" property="StartTime" styleClass="button_work" /></html:link>
 				<td width="50px">
@@ -32,8 +32,8 @@
 				<td colspan="3" >message
 			<tr><html:form action="/output">
 				<td colspan="2">
-				<td><input type="text" name="output_year"  size="1" maxlength="4" placeholder="2015">年
-					<input type="text" name="output_month" size="1" maxlength="2" placeholder="6">月
+				<td><input type="text" name="output_year"  size="4" maxlength="4" placeholder="2015">年
+					<input type="text" name="output_month" size="2" maxlength="2" placeholder="6">月
 			<tr>
 				<td><html:link href="/login.jsp"><html:button value="戻る"  property="back" onclick="location.href='./login.jsp'" styleId="button" styleClass="button" /></html:link>
 				<td width="50px">

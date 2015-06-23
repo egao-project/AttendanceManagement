@@ -33,14 +33,17 @@
 		</list>
 	</section>
 	<section name="NewWizardAction">
-		<item value="org.eclipse.jdt.ui.wizards.JavaProjectWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<item value="org.eclipse.ui.wizards.new.project" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.ui.Basic"/>
 			<item value="org.eclipse.jdt.ui.java"/>
 		</list>
 	</section>
 	<section name="ChooseWorkspaceDialogSettings">
 		<item value="534" key="DIALOG_X_ORIGIN"/>
 		<item value="236" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="BasicNewProjectResourceWizard">
 	</section>
 	<section name="SaveAsDialogSettings">
 		<item value="700" key="DIALOG_WIDTH"/>

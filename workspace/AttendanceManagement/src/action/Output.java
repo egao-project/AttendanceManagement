@@ -1,12 +1,10 @@
 package action;
 
+import java.io.File;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,24 +19,23 @@ import action.form.AM_form;
 
 public class Output extends Action {
 
+	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
 		System.out.println("S");
 
-		// AM_form‚Æ‚Ì’è‹`
+		// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«å€¤ã‚’æ ¼ç´ã™ã‚‹ç‚ºã«å®šç¾©
 		AM_form queryForm = (AM_form) form;
 
-		// Ğˆõ”Ô†‚ğAM_form‚æ‚èæ“¾
-//		String empNum = queryForm.getEmpNum();
-		String empNum = "E010";
+		// ç¤¾å“¡ç•ªå·ã®å–å¾—
+		String empNum = queryForm.getEmpNum();
+		System.out.println(empNum);
 
-		// w’è”NŒ‚Ìæ“¾
-//		int output_year = queryForm.getOutput_year();
-//		int output_month = queryForm.getOutput_month();
-		int output_year = 2015;
-		int output_month = 6;
+		// å…¥åŠ›ã—ãŸå¹´æœˆã®å–å¾—
+		int output_year = queryForm.getOutput_year();
+		int output_month = queryForm.getOutput_month();
 
 		Connection con = null;
 		Statement stmt = null;
@@ -48,40 +45,48 @@ public class Output extends Action {
 
 		// DB
 		try {
-			// DBÚ‘±
+			// DBæ¥ç¶š
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			con = DBConnect.getConnect();
 			stmt = con.createStatement();
 			System.out.println(2);
 
-			// Ğˆõ–¼‚Ìæ“¾
-			String nameSql = "SELECT emp_name AS emp_name FROM employee WHERE emp_no = '" + empNum + "'";
+			// ç¤¾å“¡åã®å–å¾—
+			String nameSql = "SELECT emp_name FROM employee WHERE emp_no = '" + empNum + "'";
 			rs1 = stmt.executeQuery(nameSql);
 			rs1.next();
 			String empName = rs1.getString("emp_name");
+			System.out.println(empName);
 			System.out.println(3);
 
-			// ƒtƒ@ƒCƒ‹–¼‚Ì‘®
-			String fileName = "‹Î‘ÓŠÇ—_" + empName + "_" + output_year + "”N" + output_month + "Œ";
-//			String fileName = "takimoto";
+			// ãƒ•ã‚¡ã‚¤ãƒ«å
+			String fileName = "å‹¤æ€ ç®¡ç†_" + empName + "_" + output_year + "å¹´" + output_month + "æœˆ";
+			System.out.println(fileName);
 
-			// CSVƒtƒ@ƒCƒ‹‚Ì•Û‘¶æ
+			// CSVãƒ•ã‚¡ã‚¤ãƒ«ã®ä¿å­˜å ´æ‰€
 			String csvDestination = "C:\\\\AttendanceManagement\\\\CSV\\\\";
 
-			// CSVo—Í‚ÌSQL•¶
+			// CSVãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã®SQLæ–‡
 			String csvSql = "SELECT * FROM work_info where emp_no = '" + empNum +"' AND work_year = " + output_year + " AND work_month = " + output_month + " INTO OUTFILE \"" + csvDestination + fileName + ".csv\" FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '" + "\"" + "'";
+
 			System.out.println(4);
 
-			// CSVƒtƒ@ƒCƒ‹o—Í
+			// æ—¢å­˜ãƒ•ã‚¡ã‚¤ãƒ«ã®å‰Šé™¤
+			String s = "\"C:\\AttendanceManagement\\CSV\\" + fileName + ".csv\"";
+			System.out.println(s);
+			File file = new File(s);
+			if (file.exists()){
+				file.delete();
+			}
+
+			// CSVãƒ•ã‚¡ã‚¤ãƒ«ã®å‡ºåŠ›
 			rs2 = stmt.executeQuery(csvSql);
 			System.out.println(5);
-//			System.out.println(csvSql);
 			stmt.close();
-			queryForm.setMessage(output_year + "”N" + output_month + "Œ" + "‚ğo—Í‚µ‚Ü‚µ‚½");
-			System.out.println(6);
+			queryForm.setMessage1(output_year + "å¹´" + output_month + "æœˆ" + "ã‚’å‡ºåŠ›ã—ã¾ã—ãŸ");
 			System.out.println("ok");
 		} catch (SQLException e) {
-			queryForm.setErrorMessage("o—Í‚É¸”s‚µ‚Ü‚µ‚½");
+			queryForm.setErrorMessage("å‡ºåŠ›ã«å¤±æ•—ã—ã¾ã—ãŸ");
 			System.out.println(e.getMessage());
 			System.out.println("catch");
 		} finally {
@@ -118,7 +123,7 @@ public class Output extends Action {
 			}
 		}
 
-		// ƒ}ƒbƒsƒ“ƒO‚É’l‚ğ•Ô‚·
+		// ãƒãƒƒãƒ”ãƒ³ã‚°ã«å€¤ã‚’è¿”ã™
 		return (mapping.findForward("Success"));
 	}
 }

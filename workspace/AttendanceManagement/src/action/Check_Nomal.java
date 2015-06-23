@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,36 +20,37 @@ import action.form.AM_form;
 
 public class Check_Nomal extends Action {
 
+	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		// �t�H�[���փA�N�Z�X����ׂɒ�`
-		AM_form queryForm = (AM_form)form;
+		// アクションフォームに値を格納する為に定義
+		AM_form queryForm = (AM_form) form;
 
-		// �t�H�[������e���ڂ̎擾
+		// 社員番号・パスワードの取得
 		String empNum = queryForm.getEmpNum();
 		String empPass = queryForm.getEmpPass();
 
-		Connection con = null;
 		int count = 0;
-
-//		// 本運用時に変更！
-//		String url = "jdbc:mysql://localhost/attendance_management";
-//		String user = "root";
-//		String password = "abcd";
+		String check = "NG";
 
 		ActionMessages errors = new ActionMessages();
 
+		Connection con = null;
 		System.out.println("2");
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance(); // ドライバをロード
 			System.out.println("ドライバのロードに成功しました"); // コンソール確認用
 			con = DBConnect.getConnect(); // mysqlにコネクト
 			System.out.println("データベース接続に成功しました"); // 確認用
-			String sql = "select*from employee where emp_no = ?";
+
+			String sql = "select * from employee where emp_no = ?";
+
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, empNum);
+
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println("5");
 
@@ -61,7 +63,9 @@ public class Check_Nomal extends Action {
 					if (!empPass.equals(rs.getString("emp_pass"))) {
 						queryForm.setMessage1("パスワードが間違っています");
 					} else {
-						queryForm.setMessage1("OK");
+						queryForm.setEmpName(rs.getString("emp_name"));
+						check = "OK";
+						queryForm.setMessage1("");
 					}
 				}
 			}
@@ -97,13 +101,14 @@ public class Check_Nomal extends Action {
 			}
 
 		}
-		// �}�b�s���O�ɒl��Ԃ�
+		// マッピングに値を返す
 		String message = queryForm.getMessage1();
 		System.out.println(message);
-		if (message.equals("OK")){
+
+		if (check.equals("OK")) {
 			return (mapping.findForward("Nomal"));
-	    } else {
-		return (mapping.findForward("Top"));
+		} else {
+			return (mapping.findForward("Top"));
+		}
 	}
-}
 }

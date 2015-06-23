@@ -19,6 +19,7 @@ import action.form.AM_form;
 
 public class Management_Del extends Action {
 
+	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {

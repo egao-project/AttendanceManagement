@@ -19,13 +19,15 @@ import action.form.AM_form;
 
 public class Management_Add extends Action {
 
+	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
 		System.out.println("1");
 
-		// �A�N�V�����t�H�[���ɒl���i�[����ׂɒ�`
+		// アクションフォームに値を格納する為に定義
+		// // 社員番号・パスワードの取得
 		AM_form queryForm = (AM_form) form;
 		String eNum = queryForm.getEmpNum();
 		System.out.println(eNum);
@@ -97,7 +99,7 @@ public class Management_Add extends Action {
 			}
 		}
 
-		// �}�b�s���O�ɒl��Ԃ�
+		// マッピングに値を返す
 		return (mapping.findForward("Add_Employee"));
 	}
 }

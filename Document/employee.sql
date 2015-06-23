@@ -17,9 +17,9 @@ INSERT INTO attendance_management.employee VALUES ('E007','盛竜也','morit');
 
 INSERT INTO attendance_management.employee VALUES ('E008','國小葉','kokusyoy');
 
-INSERT INTO attendance_management.employee VALUES ('E009','西尾知美','kokusyoy');
+INSERT INTO attendance_management.employee VALUES ('E009','西尾知美','nishiot');
 
-INSERT INTO attendance_management.employee VALUES ('E010','滝本博昭','tanakats');
+INSERT INTO attendance_management.employee VALUES ('E010','滝本博昭','takimotoh');
 
 INSERT INTO attendance_management.employee VALUES ('E011','大滝昇平','ohtakis');
 

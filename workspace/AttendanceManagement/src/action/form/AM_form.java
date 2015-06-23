@@ -6,18 +6,18 @@ public class AM_form extends ValidatorForm{
 
 	private static final long serialVersionUID = 1L;
 
-	private String empNum;				// �Ј��ԍ�
-	private String empName;				// ���O
-	private String empPass;				// �p�X���[�h
-	private String nowHour; 			// ���� ��
-	private String nowMinute;			// ���� ��
-	private String message1 = null;				// �������̃��b�Z�[�W
-	private String message2 = null;				// �������̃��b�Z�[�W
-	private String errorMessage;		// ���s���̃��b�Z�[�W
-	private int output_year;			// Output���̎w��N
-	private int output_month;			// Output���̎w�茎
+	private String empNum;				// 社員番号
+	private String empName;				// 社員名
+	private String empPass;				// パスワード
+	private String nowHour; 			// 現在 時
+	private String nowMinute;			// 現在 分
+	private String message1 = null;		// login.jsp用のメッセージ
+	private String message2 = null;		// admin.jsp用のメッセージ
+	private String errorMessage;		// エラーメッセージ
+	private int output_year;			// Outputしたい年
+	private int output_month;			// Outputしたい月
 
-	// �Ј��ԍ�
+	// 社員番号
 	public String getEmpNum() {
 		return (empNum);
 	}
@@ -25,7 +25,7 @@ public class AM_form extends ValidatorForm{
 		this.empNum = empNum;
 	}
 
-	// ���O
+	// 社員名
 	public String getEmpName() {
 		return (empName);
 	}
@@ -33,7 +33,7 @@ public class AM_form extends ValidatorForm{
 		this.empName = empName;
 	}
 
-	// �p�X���[�h
+	// パスワード
 	public String getEmpPass() {
 		return (empPass);
 	}
@@ -41,7 +41,7 @@ public class AM_form extends ValidatorForm{
 		this.empPass = empPass;
 	}
 
-	// ���� ��
+	// 現在 時
 	public String getNowHour() {
 		return (nowHour);
 	}
@@ -49,7 +49,7 @@ public class AM_form extends ValidatorForm{
 		this.nowHour = nowHour;
 	}
 
-	// ���� ��
+	// 現在 分
 	public String getNowMinute() {
 		return (nowMinute);
 	}
@@ -57,7 +57,7 @@ public class AM_form extends ValidatorForm{
 		this.nowMinute = nowMinute;
 	}
 
-	// �������̃��b�Z�[�W
+	// login.jsp用のメッセージ
 	public String getMessage1() {
 		return (message1);
 	}
@@ -65,15 +65,15 @@ public class AM_form extends ValidatorForm{
 		this.message1 = message1;
 	}
 
-	// �������̃��b�Z�[�W
-		public String getMessage2() {
-			return (message2);
-		}
-		public void setMessage2(String message2) {
-			this.message2 = message2;
-		}
+	// admin.jsp用のメッセージ
+	public String getMessage2() {
+		return (message2);
+	}
+	public void setMessage2(String message2) {
+		this.message2 = message2;
+	}
 
-	// ���s���̃��b�Z�[�W
+	// エラーメッセージ
 	public String getErrorMessage() {
 		return (errorMessage);
 	}
@@ -81,15 +81,15 @@ public class AM_form extends ValidatorForm{
 		this.errorMessage = errorMessage;
 	}
 
-	// Output���̎w��N
+	// Outputしたい年
 	public int getOutput_year() {
 		return (output_year);
 	}
-	public void setOutput_yeare(int output_year) {
+	public void setOutput_year(int output_year) {
 		this.output_year = output_year;
 	}
 
-	// Output���̎w�茎
+	// Outputしたい月
 	public int getOutput_month() {
 		return (output_month);
 	}
