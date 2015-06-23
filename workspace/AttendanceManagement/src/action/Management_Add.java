@@ -1,21 +1,12 @@
 package action;
 
-import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -23,6 +14,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
 
+import util.DBConnect;
 import action.form.AM_form;
 
 public class Management_Add extends Action {
@@ -31,9 +23,9 @@ public class Management_Add extends Action {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		System.out.println("1‚ ‚¢‚¤‚¦‚¨");
+		System.out.println("1");
 
-		// AM_form‚Æ‚Ì’è‹`
+		// ï¿½Aï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½ï¿½ï¿½É’lï¿½ï¿½ï¿½iï¿½[ï¿½ï¿½ï¿½ï¿½×‚É’ï¿½`
 		AM_form queryForm = (AM_form) form;
 		String eNum = queryForm.getEmpNum();
 		System.out.println(eNum);
@@ -43,69 +35,69 @@ public class Management_Add extends Action {
 		System.out.println(ePass);
 
 		Connection con = null;
-		PrintWriter out = response.getWriter();
+		int count = 0;
 
-		// –{‰^—p‚É•ÏXI
+		// æœ¬é‹ç”¨æ™‚ã«å¤‰æ›´ï¼
 		String url = "jdbc:mysql://localhost/attendance_management";
 		String user = "root";
 		String password = "ja0007ks";
 
 		ActionMessages errors = new ActionMessages();
-		System.out.println("2‚ ‚¢‚¤‚¦‚¨");
+		System.out.println("2");
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance(); // ƒhƒ‰ƒCƒo‚ğƒ[ƒh
-			System.out.println("3‚ ‚¢‚¤‚¦‚¨");
-			out.println("ƒhƒ‰ƒCƒo‚Ìƒ[ƒh‚É¬Œ÷‚µ‚Ü‚µ‚½"); // ƒRƒ“ƒ\[ƒ‹Šm”F—p
-			con = DriverManager.getConnection(url, user, password); // mysql‚ÉƒRƒlƒNƒg
-			out.println("ƒf[ƒ^ƒx[ƒXÚ‘±‚É¬Œ÷‚µ‚Ü‚µ‚½"); // Šm”F—p
-			System.out.println("4‚ ‚¢‚¤‚¦‚¨");
-			String sql = "insert into employee values (?,?,?) on duplicate key update emp_name=? , emp_pass=?"; // emp_no=?,
+			Class.forName("com.mysql.jdbc.Driver").newInstance(); // ãƒ‰ãƒ©ã‚¤ãƒã‚’ãƒ­ãƒ¼ãƒ‰
+			System.out.println("ãƒ‰ãƒ©ã‚¤ãƒã®ãƒ­ãƒ¼ãƒ‰ã«æˆåŠŸã—ã¾ã—ãŸ"); // ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ç¢ºèªç”¨
+			con = DBConnect.getConnect();// mysqlã«ã‚³ãƒã‚¯ãƒˆ
+			System.out.println("ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹æ¥ç¶šã«æˆåŠŸã—ã¾ã—ãŸ"); // ç¢ºèªç”¨
+			String sql = "select* from employee";
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, eNum);
-			pstmt.setString(2, ePass);
-			pstmt.setString(3, eName);
-			// pstmt.setString(2, eNum);
-			pstmt.setString(4, eName);
-			pstmt.setString(5, ePass);
-			pstmt.executeUpdate(); // ‹Lq‚µ‚½’l‚ğ“ü—Í
-			ResultSet rs = pstmt.executeQuery("select*from employee;"); // ˆÈ‰ºA¦‚Ü‚ÅŠm”F—p
-			System.out.println("5‚ ‚¢‚¤‚¦‚¨");
+			ResultSet rs = pstmt.executeQuery(); // ä»¥ä¸‹ã€â€»ã¾ã§ç¢ºèªç”¨
+			queryForm.setMessage2("ç™»éŒ²å®Œäº†");
+			System.out.println("4.5");
+			System.out.println("5");
 
 			while (rs.next()) {
-				out.println(rs.getString("emp_no"));
-				out.println(rs.getString("emp_name"));
-
+				count++;
+				if (count > 0) {
+					if (eNum.equals(rs.getString("emp_no"))) {
+						queryForm.setMessage2("ä¿®æ­£å®Œäº†");
+					}
+				}
 			}
+
+			String newsql = "insert into employee values (?,?,?) on duplicate key update emp_name=? , emp_pass=?";
+			pstmt = con.prepareStatement(newsql);
+			pstmt.setString(1, eNum);
+			pstmt.setString(2, eName);
+			pstmt.setString(3, ePass);
+			pstmt.setString(4, eName);
+			pstmt.setString(5, ePass);
+			pstmt.executeUpdate(); // è¨˜è¿°ã—ãŸå€¤ã‚’å…¥åŠ›
+
 			rs.close();
-			pstmt.close(); // ¦¦¦‚±‚±‚Ü‚ÅŠm”F¦¦¦
-			System.out.println("6‚ ‚¢‚¤‚¦‚¨");
+			pstmt.close(); // â€»â€»â€»ã“ã“ã¾ã§ç¢ºèªâ€»â€»â€»
+			System.out.println("6");
 
 		} catch (ClassNotFoundException e) {
-			out.println("ƒhƒ‰ƒCƒo‚Ìƒ[ƒh‚É¸”s‚µ‚Ü‚µ‚½");
-			System.out.println("7‚ ‚¢‚¤‚¦‚¨");
+			System.out.println("ãƒ‰ãƒ©ã‚¤ãƒã®ãƒ­ãƒ¼ãƒ‰ã«å¤±æ•—ã—ã¾ã—ãŸ");
 		} catch (SQLException e) {
-			out.println("SQL•¶‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·");
-			System.out.println("8‚ ‚¢‚¤‚¦‚¨");
+			System.out.println("SQLæ–‡ãŒé–“é•ã£ã¦ã„ã¾ã™");
 		} catch (Exception e) {
-			out.println("Exception:" + e.getMessage());
-			System.out.println("9‚ ‚¢‚¤‚¦‚¨");
+			System.out.println("Exception:" + e.getMessage());
 		} finally {
 			try {
 				if (con != null) {
 					con.close();
-					out.println("ƒf[ƒ^ƒx[ƒXØ’f‚É¬Œ÷‚µ‚Ü‚µ‚½"); // Šm”F—p
-					System.out.println("10‚ ‚¢‚¤‚¦‚¨");
+					System.out.println("ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åˆ‡æ–­ã«æˆåŠŸã—ã¾ã—ãŸ"); // ç¢ºèªç”¨
 				} else {
-					out.println("ƒRƒlƒNƒVƒ‡ƒ“‚ª‚ ‚è‚Ü‚¹‚ñ"); // Šm”F—p
-					System.out.println("‚ ‚¢‚¤‚¦‚¨");
+					System.out.println("ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒã‚ã‚Šã¾ã›ã‚“"); // ç¢ºèªç”¨
 				}
 			} catch (SQLException e) {
-				out.println("SQLException:" + e.getMessage());
-				System.out.println("‚ ‚¢‚¤‚¦‚¨");
+				System.out.println("SQLException:" + e.getMessage());
 			}
 		}
 
-		// ƒ}ƒbƒsƒ“ƒO‚É’l‚ğ•Ô‚·
+		// ï¿½}ï¿½bï¿½sï¿½ï¿½ï¿½Oï¿½É’lï¿½ï¿½Ô‚ï¿½
 		return (mapping.findForward("Add_Employee"));
 	}
 }

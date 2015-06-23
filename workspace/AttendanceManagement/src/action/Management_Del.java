@@ -1,13 +1,9 @@
 package action;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,19 +12,102 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessages;
 
+import util.DBConnect;
 import action.form.AM_form;
 
 public class Management_Del extends Action {
 
-	public ActionForward AM_form(ActionMapping mapping, ActionForm form,
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		// �A�N�V�����t�H�[���ɒl���i�[����ׂɒ�`
-		AM_form queryForm = (AM_form) form;
+		System.out.println("1");
 
-		// �}�b�s���O�ɒl��Ԃ�
+		// アクションフォームに値を格納する為に定義
+		AM_form queryForm = (AM_form) form;
+		String eNum = queryForm.getEmpNum();
+		System.out.println(eNum);
+		String eName = queryForm.getEmpName();
+		System.out.println(eName);
+		String ePass = queryForm.getEmpPass();
+		System.out.println(ePass);
+		//queryForm.setMessage("");
+
+		Connection con = null;
+		int count = 0;
+
+		// 本運用時に変更！
+		String url = "jdbc:mysql://localhost/attendance_management";
+		String user = "root";
+		String password = "ja0007ks";
+
+		ActionMessages errors = new ActionMessages();
+		System.out.println("2");
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance(); // ドライバをロード
+			System.out.println("ドライバのロードに成功しました"); // コンソール確認用
+			con = DBConnect.getConnect(); // mysqlにコネクト
+			System.out.println("データベース接続に成功しました"); // 確認用
+			String sql = "select* from employee where emp_no = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, eNum);
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("5");
+
+			// 認証処理
+			while (rs.next()) {
+				count++;
+
+				if (count == 1) {
+					// 一致しなければ認証失敗
+					if (!eNum.equals(rs.getString("emp_no"))
+							| !eName.equals(rs.getString("emp_name"))) {
+						queryForm.setMessage2("名前が間違っています。");
+					} else {
+						String newsql = "delete from employee where emp_no=? and emp_name=?";
+						pstmt = con.prepareStatement(newsql);
+						pstmt.setString(1, eNum);
+						pstmt.setString(2, eName);
+						pstmt.executeUpdate(); // 記述した値を入力
+						queryForm.setMessage2("削除しました");
+					}
+				}
+			}
+
+			// 0件ならば認証失敗
+			if (count == 0) {
+			queryForm.setMessage2("登録がありません。");
+			}
+
+			rs.close();
+			pstmt.close();
+			System.out.println("6");
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("ドライバのロードに失敗しました");
+			System.out.println("7");
+		} catch (SQLException e) {
+			System.out.println("SQL文が間違っています");
+			System.out.println("8");
+		} catch (Exception e) {
+			System.out.println("Exception:" + e.getMessage());
+			System.out.println("9");
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+					System.out.println("データベース切断に成功しました"); // 確認用
+				} else {
+					System.out.println("コネクションがありません"); // 確認用
+				}
+			} catch (SQLException e) {
+				System.out.println("SQLException:" + e.getMessage());
+			}
+
+		}
+		// マッピングに値を返す
 		return (mapping.findForward("Del_Employee"));
 	}
 }

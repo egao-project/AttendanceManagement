@@ -13,20 +13,22 @@
         <action path="/Login_Nomal"
         		type="action.Check_Nomal"
         		name="AMForm"
-        		scope="session"
+        		scope="request"
         		validate="true"
         		input="/login.jsp">
             <forward name="Nomal" path="/main.jsp" />
+            <forward name="Top" path="/login.jsp" />
         </action>
 
-		<!-- Adminボタン -->
+		<!-- adminボタン -->
         <action path="/Login_Admin"
         		type="action.Check_Admin"
         		name="AMForm"
-        		scope="session"
+        		scope="request"
         		validate="true"
         		input="/login.jsp">
             <forward name="Admin" path="/admin.jsp" />
+            <forward name="Top" path="/login.jsp" />
         </action>
 
 		<!-- 出勤ボタンボタン -->
@@ -34,7 +36,7 @@
         		type="action.Work_Start"
         		name="AMForm"
         		scope="session"
-        		validate="false"
+        		validate="true"
         		input="/main.jsp">
             <forward name="Start" path="/main.jsp" />
         </action>
@@ -63,7 +65,7 @@
         <action path="/EmployeeAdd"
         		type="action.Management_Add"
         		name="AMForm"
-        		scope="session"
+        		scope="request"
         		validate="true"
         		input="/admin.jsp">
             <forward name="Add_Employee" path="/admin.jsp" />
@@ -73,7 +75,7 @@
         <action path="/EmployeeDel"
         		type="action.Management_Del"
         		name="AMForm"
-        		scope="session"
+        		scope="request"
         		validate="true"
         		input="/admin.jsp">
             <forward name="Del_Employee" path="/admin.jsp" />

@@ -6,17 +6,18 @@ public class AM_form extends ValidatorForm{
 
 	private static final long serialVersionUID = 1L;
 
-	private String empNum;				// Ğˆõ”Ô†
-	private String empName;				// –¼‘O
-	private String empPass;				// ƒpƒXƒ[ƒh
-	private String nowHour; 			// Œ»İ 
-	private String nowMinute;			// Œ»İ •ª
-	private String message;				// ¬Œ÷‚ÌƒƒbƒZ[ƒW
-	private String errorMessage;		// ¸”s‚ÌƒƒbƒZ[ƒW
-	private int output_year;			// Output‚Ìw’è”N
-	private int output_month;			// Output‚Ìw’èŒ
+	private String empNum;				// ï¿½Ğˆï¿½ï¿½Ôï¿½
+	private String empName;				// ï¿½ï¿½ï¿½O
+	private String empPass;				// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h
+	private String nowHour; 			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	private String nowMinute;			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	private String message1 = null;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½bï¿½Zï¿½[ï¿½W
+	private String message2 = null;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½bï¿½Zï¿½[ï¿½W
+	private String errorMessage;		// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ìƒï¿½ï¿½bï¿½Zï¿½[ï¿½W
+	private int output_year;			// Outputï¿½ï¿½ï¿½Ìwï¿½ï¿½N
+	private int output_month;			// Outputï¿½ï¿½ï¿½Ìwï¿½èŒ
 
-	// Ğˆõ”Ô†
+	// ï¿½Ğˆï¿½ï¿½Ôï¿½
 	public String getEmpNum() {
 		return (empNum);
 	}
@@ -24,7 +25,7 @@ public class AM_form extends ValidatorForm{
 		this.empNum = empNum;
 	}
 
-	// –¼‘O
+	// ï¿½ï¿½ï¿½O
 	public String getEmpName() {
 		return (empName);
 	}
@@ -32,7 +33,7 @@ public class AM_form extends ValidatorForm{
 		this.empName = empName;
 	}
 
-	// ƒpƒXƒ[ƒh
+	// ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h
 	public String getEmpPass() {
 		return (empPass);
 	}
@@ -40,7 +41,7 @@ public class AM_form extends ValidatorForm{
 		this.empPass = empPass;
 	}
 
-	// Œ»İ 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	public String getNowHour() {
 		return (nowHour);
 	}
@@ -48,7 +49,7 @@ public class AM_form extends ValidatorForm{
 		this.nowHour = nowHour;
 	}
 
-	// Œ»İ •ª
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	public String getNowMinute() {
 		return (nowMinute);
 	}
@@ -56,15 +57,23 @@ public class AM_form extends ValidatorForm{
 		this.nowMinute = nowMinute;
 	}
 
-	// ¬Œ÷‚ÌƒƒbƒZ[ƒW
-	public String getMessage() {
-		return (message);
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½bï¿½Zï¿½[ï¿½W
+	public String getMessage1() {
+		return (message1);
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setMessage1(String message1) {
+		this.message1 = message1;
 	}
 
-	// ¸”s‚ÌƒƒbƒZ[ƒW
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½bï¿½Zï¿½[ï¿½W
+		public String getMessage2() {
+			return (message2);
+		}
+		public void setMessage2(String message2) {
+			this.message2 = message2;
+		}
+
+	// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ìƒï¿½ï¿½bï¿½Zï¿½[ï¿½W
 	public String getErrorMessage() {
 		return (errorMessage);
 	}
@@ -72,7 +81,7 @@ public class AM_form extends ValidatorForm{
 		this.errorMessage = errorMessage;
 	}
 
-	// Output‚Ìw’è”N
+	// Outputï¿½ï¿½ï¿½Ìwï¿½ï¿½N
 	public int getOutput_year() {
 		return (output_year);
 	}
@@ -80,7 +89,7 @@ public class AM_form extends ValidatorForm{
 		this.output_year = output_year;
 	}
 
-	// Output‚Ìw’èŒ
+	// Outputï¿½ï¿½ï¿½Ìwï¿½èŒ
 	public int getOutput_month() {
 		return (output_month);
 	}
