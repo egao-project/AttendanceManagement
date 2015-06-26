@@ -1,0 +1,52 @@
+import java.io.UnsupportedEncodingException;
+
+
+
+
+public class test {
+
+	public static void main(String[] args) {
+
+		int output_month = 10;
+		int output_year  = 2015;
+		String empName = "滝本博昭";
+		String empNum = "E010";
+		String csvDestination = "C:\\\\AttendanceManagement\\\\CSV\\\\";
+
+		// ファイル名用の年月
+		String fileDate = null;
+		if (output_month < 10){
+			String fileMounth = "0" + output_month;
+			fileDate = output_year + fileMounth;
+		} else {
+			fileDate = String.valueOf(output_year) + String.valueOf(output_month);
+		}
+
+		System.out.println(fileDate);
+
+		// CSVファイルの保存場所 Java用
+		String csvJava = "\"C:\\AttendanceManagement\\CSV\\";
+
+		// ファイル名
+		String fileName = "勤怠実績_" + empName + "_" + fileDate;
+		System.out.println(fileName);
+
+		// CSVファイル出力のSQL文
+		String csvSql = "SELECT * FROM work_info where emp_no = '" + empNum +"' AND work_year = " + output_year + " AND work_month = " + output_month + " INTO OUTFILE \"" + csvDestination + fileName + ".csv\" FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '" + "\"" + "'";
+
+		System.out.println(csvSql);
+
+		String csvDelete = csvJava + fileName + ".csv\"";
+		System.out.println(csvDelete);
+
+		try {
+			String eucjpStr = new String("変換したい文字列".getBytes("UTF8"), "UTF8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		System.out.println(eucjpStr);
+
+	}
+
+}

@@ -12,7 +12,6 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
 
 import util.DBConnect;
 import action.form.AM_form;
@@ -24,79 +23,53 @@ public class Management_Add extends Action {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		System.out.println("1");
-
 		// アクションフォームに値を格納する為に定義
-		// // 社員番号・パスワードの取得
 		AM_form queryForm = (AM_form) form;
-		String eNum = queryForm.getEmpNum();
-		System.out.println(eNum);
-		String eName = queryForm.getEmpName();
-		System.out.println(eName);
-		String ePass = queryForm.getEmpPass();
-		System.out.println(ePass);
 
-		Connection con = null;
+		// employeeテーブルの全情報取得のSQL文
+		String sql = "SELECT * FROM employee";
+
+		// レコードが無ければINSERT、有ればUPDATEのSQL文
+		String newsql = "INSERT INTO employee VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE emp_name=?, emp_pass=?";
+
+		// 認証処理用の変数
 		int count = 0;
 
-		// 本運用時に変更！
-		String url = "jdbc:mysql://localhost/attendance_management";
-		String user = "root";
-		String password = "ja0007ks";
+		// DB接続
+		try (Connection con = DBConnect.con();) {
 
-		ActionMessages errors = new ActionMessages();
-		System.out.println("2");
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance(); // ドライバをロード
-			System.out.println("ドライバのロードに成功しました"); // コンソール確認用
-			con = DBConnect.getConnect();// mysqlにコネクト
-			System.out.println("データベース接続に成功しました"); // 確認用
-			String sql = "select* from employee";
+			// employeeテーブルの全情報取得
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery(); // 以下、※まで確認用
-			queryForm.setMessage2("登録完了");
-			System.out.println("4.5");
-			System.out.println("5");
+			ResultSet rs = pstmt.executeQuery();
 
+			// メッセージの格納
 			while (rs.next()) {
 				count++;
 				if (count > 0) {
-					if (eNum.equals(rs.getString("emp_no"))) {
-						queryForm.setMessage2("修正完了");
+					if (queryForm.getEmpNum().equals(rs.getString("emp_no"))) {
+						queryForm.setMessage("修正完了");
+						break;
+					} else {
+						queryForm.setMessage("登録完了");
 					}
 				}
 			}
 
-			String newsql = "insert into employee values (?,?,?) on duplicate key update emp_name=? , emp_pass=?";
+			// レコードが無ければINSERT、有ればUPDATE
 			pstmt = con.prepareStatement(newsql);
-			pstmt.setString(1, eNum);
-			pstmt.setString(2, eName);
-			pstmt.setString(3, ePass);
-			pstmt.setString(4, eName);
-			pstmt.setString(5, ePass);
-			pstmt.executeUpdate(); // 記述した値を入力
-
-			rs.close();
-			pstmt.close(); // ※※※ここまで確認※※※
-			System.out.println("6");
+			pstmt.setString(1, queryForm.getEmpNum());
+			pstmt.setString(2, queryForm.getEmpName());
+			pstmt.setString(3, queryForm.getEmpPass());
+			pstmt.setString(4, queryForm.getEmpName());
+			pstmt.setString(5, queryForm.getEmpPass());
+			pstmt.executeUpdate();
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("ドライバのロードに失敗しました");
+			System.out.println("ClassNotFoundException:" + e.getMessage());
 		} catch (SQLException e) {
-			System.out.println("SQL文が間違っています");
+			System.out.println("SQLException:" + e.getMessage());
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-					System.out.println("データベース切断に成功しました"); // 確認用
-				} else {
-					System.out.println("コネクションがありません"); // 確認用
-				}
-			} catch (SQLException e) {
-				System.out.println("SQLException:" + e.getMessage());
-			}
 		}
 
 		// マッピングに値を返す

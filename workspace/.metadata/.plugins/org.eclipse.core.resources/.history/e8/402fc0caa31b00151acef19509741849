@@ -1,0 +1,37 @@
+package util;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public class Item {
+
+		Calendar now = Calendar.getInstance();
+		int nowYear = now.get(Calendar.YEAR); 			// 現在 年
+		int nowMonth = now.get(Calendar.MONTH) + 1; 	// 現在 月（+1することで、1～12に対応）
+		int nowDay = now.get(Calendar.DATE); 			// 現在 日
+		String nowHour = String.valueOf(now.get(Calendar.HOUR_OF_DAY)); 	// 現在 時
+		String nowMinute = String.valueOf(now.get(Calendar.MINUTE)); 		// 現在 分
+
+		public Item(){
+			// nowMinuteが0時、00に変更
+			if (nowMinute.equals("0")) {
+				nowMinute = "00";
+			}
+		}
+
+
+	// 現在の年月日を指定書式に変換 例)2015-06-17
+	public static String getToday() {
+		Calendar now = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String today = sdf.format(now.getTime());
+		return (today);
+	}
+
+	// 現在の時間を指定書式に変換 例)23:59
+	public String getNowTime() {
+		String nowTime = nowHour + ":" + nowMinute;
+		return (nowTime);
+	}
+
+}

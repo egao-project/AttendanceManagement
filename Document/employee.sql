@@ -1,6 +1,6 @@
 ﻿DROP TABLE attendance_management.employee;
 
-CREATE TABLE attendance_management.employee (emp_no VARCHAR(4) PRIMARY KEY, emp_name VARCHAR(30) NOT NULL, emp_pass VARCHAR(15) NOT NULL);
+CREATE TABLE attendance_management.employee (emp_no VARCHAR(4) PRIMARY KEY, emp_name VARCHAR(40) NOT NULL, emp_pass VARCHAR(15) NOT NULL);
 
 INSERT INTO attendance_management.employee VALUES ('M001','田中寿法','tanakats');
 

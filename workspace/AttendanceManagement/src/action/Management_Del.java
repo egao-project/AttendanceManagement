@@ -12,7 +12,6 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
 
 import util.DBConnect;
 import action.form.AM_form;
@@ -24,90 +23,53 @@ public class Management_Del extends Action {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		System.out.println("1");
-
 		// アクションフォームに値を格納する為に定義
 		AM_form queryForm = (AM_form) form;
-		String eNum = queryForm.getEmpNum();
-		System.out.println(eNum);
-		String eName = queryForm.getEmpName();
-		System.out.println(eName);
-		String ePass = queryForm.getEmpPass();
-		System.out.println(ePass);
-		//queryForm.setMessage("");
 
-		Connection con = null;
+		// 入力された社員番号と一致するレコードを取得のSQL文
+		String sql = "SELECT * FROM employee WHERE emp_no = ?";
+
+		// 入力された社員番号と一致するレコードを削除するSQL文
+		String newsql = "DELETE FROM employee WHERE emp_no = ?";
+
+		// 認証処理用の変数
 		int count = 0;
 
-		// 本運用時に変更！
-		String url = "jdbc:mysql://localhost/attendance_management";
-		String user = "root";
-		String password = "ja0007ks";
+		// DB接続
+		try (Connection con = DBConnect.con();) {
 
-		ActionMessages errors = new ActionMessages();
-		System.out.println("2");
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance(); // ドライバをロード
-			System.out.println("ドライバのロードに成功しました"); // コンソール確認用
-			con = DBConnect.getConnect(); // mysqlにコネクト
-			System.out.println("データベース接続に成功しました"); // 確認用
-			String sql = "select* from employee where emp_no = ?";
+			// 入力された社員番号と一致するレコードを取得
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, eNum);
+			pstmt.setString(1, queryForm.getEmpNum());
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println("5");
 
 			// 認証処理
 			while (rs.next()) {
 				count++;
-
 				if (count == 1) {
-					// 一致しなければ認証失敗
-					if (!eNum.equals(rs.getString("emp_no"))
-							| !eName.equals(rs.getString("emp_name"))) {
-						queryForm.setMessage2("名前が間違っています。");
-					} else {
-						String newsql = "delete from employee where emp_no=? and emp_name=?";
+					// 一致したら削除
+					if (queryForm.getEmpNum().equals(rs.getString("emp_no"))) {
 						pstmt = con.prepareStatement(newsql);
-						pstmt.setString(1, eNum);
-						pstmt.setString(2, eName);
-						pstmt.executeUpdate(); // 記述した値を入力
-						queryForm.setMessage2("削除しました");
+						pstmt.setString(1, queryForm.getEmpNum());
+						pstmt.executeUpdate();
+						queryForm.setMessage("削除しました");
 					}
 				}
 			}
 
-			// 0件ならば認証失敗
+			// 一致するレコードが無ければ認証失敗
 			if (count == 0) {
-			queryForm.setMessage2("登録がありません。");
+				queryForm.setErrorMessage("登録がありません。");
 			}
-
-			rs.close();
-			pstmt.close();
-			System.out.println("6");
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("ドライバのロードに失敗しました");
-			System.out.println("7");
+			System.out.println("ClassNotFoundException:" + e.getMessage());
 		} catch (SQLException e) {
-			System.out.println("SQL文が間違っています");
-			System.out.println("8");
+			System.out.println("SQLException:" + e.getMessage());
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
-			System.out.println("9");
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-					System.out.println("データベース切断に成功しました"); // 確認用
-				} else {
-					System.out.println("コネクションがありません"); // 確認用
-				}
-			} catch (SQLException e) {
-				System.out.println("SQLException:" + e.getMessage());
-			}
-
 		}
+
 		// マッピングに値を返す
 		return (mapping.findForward("Del_Employee"));
 	}

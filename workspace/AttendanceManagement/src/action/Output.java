@@ -1,10 +1,11 @@
 package action;
 
-import java.io.File;
+import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,106 +25,105 @@ public class Output extends Action {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		System.out.println("S");
-
-		// アクションフォームに値を格納する為に定義
+		// アクションフォーム利用の為の定義
 		AM_form queryForm = (AM_form) form;
 
-		// 社員番号の取得
-		String empNum = queryForm.getEmpNum();
-		System.out.println(empNum);
+		// メッセージを初期化
+		queryForm.setMessage("");
+		queryForm.setErrorMessage("");
 
-		// 入力した年月の取得
-		int output_year = queryForm.getOutput_year();
-		int output_month = queryForm.getOutput_month();
+		/* 保存ダイアログのファイル名（月が一桁なら頭に0を付ける）
+		   例）勤怠実績_滝本博昭_201606.csv */
+		String csvName = null;
+		if (queryForm.getOutput_month() < 10) {
+			csvName = "勤怠実績_" + queryForm.getEmpName() + "_"
+					+ queryForm.getOutput_year() + "0" + queryForm.getOutput_month() + ".csv";
+		} else {
+			csvName = "勤怠実績_" + queryForm.getEmpName() + "_"
+					+ queryForm.getOutput_year() + queryForm.getOutput_month() + ".csv";
+		}
 
-		Connection con = null;
-		Statement stmt = null;
-		ResultSet rs1 = null;
-		ResultSet rs2 = null;
-		System.out.println(1);
+		/* CSVの中身に入れるコメント
+		   例）勤怠実績（2015年6月） */
+		String dateCsv = "勤怠実績（" + queryForm.getOutput_year() + "年" + queryForm.getOutput_month() + "月度）";
 
-		// DB
-		try {
-			// DB接続
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			con = DBConnect.getConnect();
-			stmt = con.createStatement();
-			System.out.println(2);
+		// 検索用結果用の変数(0なら本日のレコード無し、0より上なら有り)
+		int count = 0;
 
-			// 社員名の取得
-			String nameSql = "SELECT emp_name FROM employee WHERE emp_no = '" + empNum + "'";
-			rs1 = stmt.executeQuery(nameSql);
-			rs1.next();
-			String empName = rs1.getString("emp_name");
-			System.out.println(empName);
-			System.out.println(3);
+		// 指定年月のCSVファイル出力
+		try (Connection con = DBConnect.con();) {
 
-			// ファイル名
-			String fileName = "勤怠管理_" + empName + "_" + output_year + "年" + output_month + "月";
-			System.out.println(fileName);
+			// 入力年月の情報があるか検索
+			String countSql = "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = ? and work_year = ? and work_month = ?";
+			PreparedStatement pstmt = con.prepareStatement(countSql);
+			pstmt.setString(1, queryForm.getEmpNum());
+			pstmt.setInt(2, queryForm.getOutput_year());
+			pstmt.setInt(3, queryForm.getOutput_month());
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			count = rs.getInt("emp_no");
 
-			// CSVファイルの保存場所
-			String csvDestination = "C:\\\\AttendanceManagement\\\\CSV\\\\";
+			// 入力年月が無ければエラーメッセージの表示、あれば出力
+			if (count == 0) {
+				queryForm.setMessage("");
+				queryForm.setErrorMessage("入力した年月の情報はありません");
+			} else {
+				String filename = new String(csvName.getBytes("Windows-31J"),"ISO-8859-1");
 
-			// CSVファイル出力のSQL文
-			String csvSql = "SELECT * FROM work_info where emp_no = '" + empNum +"' AND work_year = " + output_year + " AND work_month = " + output_month + " INTO OUTFILE \"" + csvDestination + fileName + ".csv\" FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '" + "\"" + "'";
+				// HTTPヘッダの出力
+				response.setContentType("application/octet-stream;charset=Windows-31J");
+				response.setHeader("Content-disposition","attachment; filename=\"" + filename + "\"");
+				response.flushBuffer();
 
-			System.out.println(4);
+				PrintWriter out = response.getWriter();
 
-			// 既存ファイルの削除
-			String s = "\"C:\\AttendanceManagement\\CSV\\" + fileName + ".csv\"";
-			System.out.println(s);
-			File file = new File(s);
-			if (file.exists()){
-				file.delete();
+				// 対象レコードの抽出
+				String csvSql = "SELECT date, work_start, work_last, real_start, real_last FROM work_info "
+						+ "where emp_no = ? AND work_year = ? AND work_month = ?";
+				System.out.println(csvSql);
+				pstmt = con.prepareStatement(csvSql);
+				pstmt.setString(1, queryForm.getEmpNum());
+				pstmt.setInt(2, queryForm.getOutput_year());
+				pstmt.setInt(3, queryForm.getOutput_month());
+				rs = pstmt.executeQuery();
+				ResultSetMetaData rsmd = rs.getMetaData();
+
+				// タイトル行の出力
+				out.println("株式会社イーガオ");
+				out.println(queryForm.getEmpName());
+				out.println(dateCsv);
+				out.println();
+				out.println("日付,開始時刻,終了時刻,出勤時刻,退勤時刻");
+
+				// 各行の内容を繰り返し出力
+				while (rs.next()) {
+					// 各カラムの内容を繰り返し出力
+					for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+						out.print(rs.getString(i));
+						out.print(i <= rsmd.getColumnCount() ? "," : "");
+					}
+					out.print(System.getProperty("line.separator"));
+				}
+				out.flush();
+				out.close();
+
+				// メッセージを初期化
+				queryForm.setMessage("");
+				queryForm.setErrorMessage("");
 			}
-
-			// CSVファイルの出力
-			rs2 = stmt.executeQuery(csvSql);
-			System.out.println(5);
-			stmt.close();
-			queryForm.setMessage1(output_year + "年" + output_month + "月" + "を出力しました");
-			System.out.println("ok");
+		} catch (ClassNotFoundException e) {
+			System.out.println(e + " ドライバのロードに失敗");
 		} catch (SQLException e) {
-			queryForm.setErrorMessage("出力に失敗しました");
-			System.out.println(e.getMessage());
-			System.out.println("catch");
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				System.err.println(e);
-			}
-
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-			} catch (SQLException e) {
-				System.err.println(e);
-			}
-
-			try {
-				if (rs1 != null) {
-					rs1.close();
-				}
-			} catch (SQLException e) {
-				System.err.println(e);
-			}
-
-			try {
-				if (rs2 != null) {
-					rs2.close();
-				}
-			} catch (SQLException e) {
-				System.err.println(e);
-			}
+			System.out.println(e + " SQL文が間違い");
+		} catch (Exception e) {
+			System.out.println(e + " Exception:" + e.getMessage());
 		}
 
 		// マッピングに値を返す
-		return (mapping.findForward("Success"));
+		if (count == 0) {
+			return (mapping.findForward("NG"));
+		} else {
+			return null;
+		}
 	}
 }

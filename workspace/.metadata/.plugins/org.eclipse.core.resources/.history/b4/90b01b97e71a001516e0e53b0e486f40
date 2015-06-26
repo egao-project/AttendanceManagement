@@ -1,0 +1,176 @@
+package action;
+
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
+import util.DBConnect;
+import action.form.AM_form;
+
+public class OutputB extends Action {
+
+	@Override
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		// アクションフォームに値を格納する為に定義
+		AM_form queryForm = (AM_form) form;
+
+		// メッセージを初期化
+		queryForm.setMessageMain("");
+		queryForm.setErrorMessage("");
+
+		// 社員番号の取得
+		String empNum = queryForm.getEmpNum();
+		System.out.println(empNum + " ←社員番号取得結果");
+
+		// 社員名の取得
+		String empName = queryForm.getEmpName();
+		System.out.println(empName + " ←社員名取得結果");
+
+		// 入力した年月の取得
+		int output_year = queryForm.getOutput_year();
+		int output_month = queryForm.getOutput_month();
+
+		// ファイル名用の年月
+		String fileDate = null;
+		if (output_month < 10){					// output_monthが9以下の時は頭に0を付ける
+			String fileMounth = "0" + output_month;
+			fileDate = output_year + fileMounth;
+		} else {
+			fileDate = String.valueOf(output_year) + String.valueOf(output_month);
+		}
+		System.out.println(fileDate + " ←ファイル名用の年月");
+
+		// csvの中身用年月
+		String dateCsv = "勤怠実績（" + output_year + "年" + output_month + "月度）";
+
+
+		// DB接続用の変数用意
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs1 = null;
+		ResultSet rs2 = null;
+
+		PrintWriter out = response.getWriter();
+
+		// DB
+		try {
+			// DB接続
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			con = DBConnect.getConnect();
+			stmt = con.createStatement();
+			System.out.println("DB接続");
+
+			// 入力年月の情報があるか検索
+			int count = 0;
+			String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = '" + empNum + "' and work_year = " + output_year + " and work_month = " + output_month + "";
+			System.out.println(countSql + "\n↑入力年月の情報があるか検索のSQL文");
+			rs1 = stmt.executeQuery(countSql);
+			rs1.next();
+			count = rs1.getInt("emp_no");
+			System.out.println(count + " ←既存レコードの検索結果");
+
+			// 入力年月が無ければエラーメッセージの表示、あれば出力
+			if ( count == 0){
+				queryForm.setErrorMessage("入力した年月に情報はありません");
+				queryForm.setMessageMain("");
+				// マッピングに値を返す
+				return (mapping.findForward("NG"));
+			} else {
+				// 保存ダイアログのファイル名
+				String fileName = "勤怠実績_" + empName + "_" + fileDate + ".csv";
+				String csvName = new String(fileName.getBytes("Windows-31J"), "ISO-8859-1");
+				System.out.println(csvName + " ←保存ダイアログのファイル名");
+
+				// HTTPヘッダの出力
+			    response.setContentType("application/octet-stream;charset=UTF-8");
+			    response.setHeader("Content-disposition","attachment; filename=\"" + csvName + "\"");
+			    response.flushBuffer();
+
+				// 対象レコードの抽出
+				String csvSql = "SELECT date, work_start, work_last, real_start, real_last FROM work_info where emp_no = '" + empNum +"' AND work_year = " + output_year + " AND work_month = " + output_month;
+				System.out.println(csvSql);
+				rs2 = stmt.executeQuery(csvSql);
+				ResultSetMetaData rsmd = rs2.getMetaData();
+
+				// タイトル行の出力
+				out.println("株式会社イーガオ");
+				out.println(empName);
+				out.println(dateCsv);
+				out.println("\n");
+				out.println("日付,開始時刻,終了時刻,出勤時刻,退勤時刻");
+
+				// 各行の内容を繰り返し出力
+				while (rs2.next()) {
+					// 各カラムの内容を繰り返し出力
+					for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+						out.print(rs2.getString(i));
+						out.print(i <= rsmd.getColumnCount() ? "," : "");
+					}
+					out.print(System.getProperty("line.separator"));
+				}
+				out.flush();
+				out.close();
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println(e + "ドライバのロードに失敗");
+		} catch (SQLException e) {
+			queryForm.setMessageMain("");
+			System.out.println(e + "SQL文が間違い");
+		} catch (Exception e) {
+			System.out.println(e + "Exception:" + e.getMessage());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+
+			try {
+				if (rs1 != null) {
+					rs1.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+
+			try {
+				if (rs2 != null) {
+					rs2.close();
+				}
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+
+
+		}
+
+		System.out.println("Output終了");
+
+		// マッピングに値を返す
+		return null;
+	}
+}

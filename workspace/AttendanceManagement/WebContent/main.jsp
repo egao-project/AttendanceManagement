@@ -29,7 +29,9 @@
 			<tr>
 				<td colspan="3" >
 			<tr>
-				<td colspan="3" >message
+				<td colspan="3" ><bean:write name="AMForm" property="message" /><bean:write name="AMForm" property="errorMessage" /><br>
+								 <html:errors property="output_year"/><br>
+								 <html:errors property="output_month"/>
 			<tr><html:form action="/output">
 				<td colspan="2">
 				<td><input type="text" name="output_year"  size="4" maxlength="4" placeholder="2015">年

@@ -1,0 +1,103 @@
+package action;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+
+import action.form.AM_form;
+import util.DBConnect;
+
+public class Output1 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response,
+			ActionForm form) throws ServletException, IOException {
+
+		response.setContentType("application/octet-stream;charset=Windows-31J");
+		response.setHeader("Content-Disposition", "attachment; filename=db.csv");
+
+		// アクションフォームに値を格納する為に定義
+		AM_form queryForm = (AM_form) form;
+
+		// メッセージを初期化
+		queryForm.setMessageMain("");
+		queryForm.setErrorMessage("");
+
+		// 社員番号の取得
+		String empNum = queryForm.getEmpNum();
+		System.out.println(empNum);
+
+		// 入力した年月の取得
+		int output_year = queryForm.getOutput_year();
+		int output_month = queryForm.getOutput_month();
+
+		// ファイル名用の年月
+		String fileDate = String.valueOf(output_year) + "年" + String.valueOf(output_month) + "月";
+		System.out.println(fileDate);
+
+		PrintWriter out = response.getWriter();
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs1 = null;
+		ResultSet rs2 = null;
+
+		try {
+			Class.forName("org.gjt.mm.mysql.Driver");
+			con = DBConnect.getConnect();
+			stmt = con.createStatement();
+
+			// 社員名の取得
+			String nameSql = "SELECT emp_name FROM employee WHERE emp_no = '" + empNum + "'";
+			rs1 = stmt.executeQuery(nameSql);
+			rs1.next();
+			String empName = rs1.getString("emp_name");
+			System.out.println(empName + " ←社員名の取得結果");
+
+			String csvSql = "SELECT date, work_start, work_last, real_start, real_last FROM work_info where emp_no = '" + empNum +"' AND work_year = " + output_year + " AND work_month = " + output_month;
+			rs2 = stmt.executeQuery(csvSql);
+			ResultSetMetaData objRmd = rs2.getMetaData();
+
+			// タイトル行の出力
+			out.println("\"" + fileDate + "," + empName + "\n日付,開始時刻,終了時刻,出勤時刻,退勤時刻\"");
+			// 各行の内容を繰り返し出力
+			while (rs2.next()) {
+				// 各カラムの内容を繰り返し出力
+				for (int i = 1; i <= objRmd.getColumnCount(); i++) {
+					out.print(rs2.getString(i));
+					out.print(i <= objRmd.getColumnCount() ? "," : "");
+				}
+				out.print(System.getProperty("line.separator"));
+			}
+		} catch (ClassNotFoundException e) {
+			throw new ServletException(e);
+		} catch (SQLException e) {
+			throw new ServletException(e);
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+				if (out != null) {
+					out.close();
+				}
+			} catch (Exception e) {
+				throw new ServletException(e);
+			}
+		}
+	}
+}

@@ -3,10 +3,8 @@
 <fullyQualifiedTypeName name="java.lang.Math"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="lib.Input"/>
-<fullyQualifiedTypeName name="org.apache.struts.action.ActionMapping"/>
 <fullyQualifiedTypeName name="org.apache.struts.actions.DispatchAction"/>
 <fullyQualifiedTypeName name="org.apache.struts.action.ActionForm"/>
-<fullyQualifiedTypeName name="org.apache.struts.action.ActionForward"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
 <fullyQualifiedTypeName name="org.apache.struts.faces.taglib.FormTag"/>
@@ -20,4 +18,11 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="org.apache.struts.action.Action"/>
+<fullyQualifiedTypeName name="org.apache.struts.action.ActionMapping"/>
+<fullyQualifiedTypeName name="org.apache.struts.action.ActionForward"/>
+<fullyQualifiedTypeName name="java.io.BufferedWriter"/>
+<fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
+<fullyQualifiedTypeName name="util.Item"/>
+<fullyQualifiedTypeName name="org.apache.struts.validator.ValidatorActionForm"/>
 </qualifiedTypeNameHistroy>

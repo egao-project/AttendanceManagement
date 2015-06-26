@@ -1,0 +1,109 @@
+package action;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
+import util.DBConnect;
+import util.Item;
+import action.form.AM_form;
+
+public class Work_Start extends Action {
+
+	@Override
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		System.out.println("Work_Start開始");
+
+		// アクションフォームに値を格納する為に定義
+		AM_form queryForm = (AM_form) form;
+
+		// Itemクラスを使用する準備
+		Item item = new Item();
+
+		// メッセージを初期化
+		queryForm.setMessageMain("");
+		queryForm.setErrorMessage("");
+
+		// 社員番号の取得
+		String empNum = queryForm.getEmpNum();
+
+		// 現在の年月日
+		String today = item.getToday();
+
+		// 現在の時間
+		String nowTime = item.getNowTime();
+
+		// 出勤ボタンを押した際の時間(15分単位に繰上げ)
+		String startTime = item.getWorkTime();
+
+		// 出勤レコード追加のSQL文
+		String sql = "INSERT INTO work_info (emp_no, date, work_year, work_month, work_day, work_start, real_start) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
+		System.out.println(sql + "\n↑出勤レコード追加のSQL文");
+
+		// 既存レコードが無いか検索用のSQL文
+		String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = '" + empNum + "' and date = '" + today + "'";
+		System.out.println(countSql + "\n↑既存レコードが無いか検索用のSQL文");
+
+		// 検索用結果用の変数 0なら本日のレコード無し 1なら有り
+		int count;
+
+		// DB接続
+		try (Connection con = DBConnect.con();
+			 Statement stmt = con.createStatement();) {
+
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+
+			// 既存レコードの検索
+			rs = stmt.executeQuery(countSql);
+			rs.next();
+			count = rs.getInt("emp_no");
+			System.out.println(count "検索結果");
+
+			// レコード追加（レコードが無い場合のみ）
+			if (count == 0){
+				pstmt.setString(1, empNum);
+				pstmt.setString(2, today);
+				pstmt.setInt(3, Item.nowYear);
+				pstmt.setInt(4, Item.nowMonth);
+				pstmt.setInt(5, Item.nowDay);
+				pstmt.setString(6, startTime);
+				pstmt.setString(7, nowTime);
+				pstmt.executeUpdate();
+				pstmt.close();
+				queryForm.setMessageMain(nowTime + "  本日もお願いします！");
+				queryForm.setErrorMessage("");
+				System.out.println("レコード追加 成功");
+			} else {
+				queryForm.setErrorMessage("既に出勤が押されています…");
+				queryForm.setMessageMain("");
+				System.out.println("レコード追加 失敗");
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println(e + "ドライバのロードに失敗");
+		} catch (SQLException e) {
+			System.out.println(e + "SQL文が間違い");
+		} catch (Exception e) {
+			System.out.println(e + "Exception:" + e.getMessage());
+
+		}
+
+		// マッピングに値を返す
+		return (mapping.findForward("Start"));
+	}
+}

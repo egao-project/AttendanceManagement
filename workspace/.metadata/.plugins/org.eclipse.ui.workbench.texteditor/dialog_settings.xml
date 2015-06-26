@@ -2,37 +2,37 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="last" key="selection"/>
-		<item value="false" key="casesensitive"/>
+		<item value="length" key="selection"/>
+		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="start"/>
-			<item value="&quot;"/>
-			<item value="data"/>
-			<item value="AM_form"/>
-			<item value="request"/>
-			<item value="AMForm"/>
-			<item value="session"/>
-			<item value="pRequest"/>
+			<item value="lungth"/>
+			<item value="pass.min"/>
+			<item value="name.min"/>
+			<item value="num.min"/>
+			<item value="setMessage2"/>
+			<item value="eNum"/>
+			<item value="setMessageAdmin"/>
+			<item value="setMessageMain"/>
 		</list>
 		<list key="replacehistory">
-			<item value="last"/>
-			<item value="\&quot;"/>
-			<item value="AMForm"/>
-			<item value="session"/>
-			<item value="AM_form"/>
-			<item value="request"/>
-			<item value="sM"/>
-			<item value="nM"/>
+			<item value="length"/>
+			<item value="pass.length"/>
+			<item value="name.length"/>
+			<item value="num.lungth"/>
+			<item value="setMessage"/>
+			<item value="queryForm.getEmpNum()"/>
+			<item value="queryForm.getEmpPass()"/>
+			<item value="queryForm.getEmpName()"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="373" key="DIALOG_WIDTH"/>
 		<item value="1|Meiryo UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Meiryo UI" key="DIALOG_FONT_NAME"/>
-		<item value="432" key="DIALOG_HEIGHT"/>
-		<item value="752" key="DIALOG_X_ORIGIN"/>
-		<item value="197" key="DIALOG_Y_ORIGIN"/>
+		<item value="434" key="DIALOG_HEIGHT"/>
+		<item value="16" key="DIALOG_X_ORIGIN"/>
+		<item value="220" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

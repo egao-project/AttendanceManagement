@@ -1,10 +1,18 @@
-
+import action.form.AM_form;
 
 
 public class test {
 
 	public static void main(String[] args) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+
+		// ç¤¾å“¡ç•ªå·ã®å–å¾—
+		public String getEmpNum(){
+			AM_form queryForm = new AM_form();
+			String empNum = queryForm.getEmpNum();
+			return (empNum);
+		}
+
+		System.out.println(url);
 
 	}
 

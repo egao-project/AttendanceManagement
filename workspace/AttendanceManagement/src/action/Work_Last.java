@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +14,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import util.DBConnect;
+import util.Item;
 import action.form.AM_form;
 
 public class Work_Last extends Action {
@@ -26,127 +24,53 @@ public class Work_Last extends Action {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		System.out.println("S");
-
-		// アクションフォームに値を格納する為に定義
+		// アクションフォーム・Itemクラス利用の為の定義
 		AM_form queryForm = (AM_form) form;
+		Item item = new Item();
 
-		// 社員番号の取得
-		String empNum = queryForm.getEmpNum();
-//		String empNum = "E010";
-
-		// 現在日時
-		Calendar now = Calendar.getInstance();
-		int nowYear = now.get(Calendar.YEAR); 			// 現在 年
-		int nowMonth = now.get(Calendar.MONTH) + 1; 	// 現在 月
-		int nowDay = now.get(Calendar.DATE); 			// 現在 日
-		int nowHour = now.get(Calendar.HOUR_OF_DAY); 	// 現在 時
-		int nowMinute = now.get(Calendar.MINUTE); 		// 現在 分
-		if (nowMinute == 0) { 							// 分が0の時に00とし、フォームに格納
-			String nowMinute_0 = nowMinute + "0";
-			queryForm.setNowMinute(nowMinute_0);
-		} else {
-			queryForm.setNowMinute(String.valueOf(nowMinute));
-		}
-
-		// 年月日 例)2015-06-17
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String today = sdf.format(now.getTime());
-
-		// 現在日時 例)23:59
-		String nowTime = String.valueOf(nowHour) + ":" + String.valueOf(nowMinute);
-
-		// 終了時間
-		int lastHour_i = nowHour; // 終了 時
-		String lastMinute = null; // 終了 分
-
-		// 15分単位に変換
-		if (nowMinute == 0) {
-			lastMinute = "00";
-		} else if (nowMinute <= 15) {
-			lastMinute = "15";
-		} else if (nowMinute <= 30) {
-			lastMinute = "30";
-		} else if (nowMinute <= 45) {
-			lastMinute = "45";
-		} else {
-			lastMinute = "00";
-			lastHour_i = nowHour + 1;
-		}
-
-		// 15分単位のString 例)18:45
-		String lastTime = String.valueOf(lastHour_i) + ":" + lastMinute;
-
-		// 終了時間のUPDATE SQL文
-		String sql = "UPDATE attendance_management.work_info SET work_last = ?, real_last = ? WHERE emp_no = ? AND date = ?";
+		// メッセージを初期化
+		queryForm.setMessage("");
+		queryForm.setErrorMessage("");
 
 		// 対象レコード検索用SQL文
-		String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info "
-				+ "WHERE emp_no = '" + empNum + "' and date = '" + today + "' and work_last IS NULL;";
+		String countSql = "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = ? and date = ? and work_last IS NULL";
 
-		Connection con = null;
-		Statement stmt = null;
-		PreparedStatement pstmt = null;
-		int count;							// 検索用変数
-		ResultSet rs = null;
-		System.out.println(1);
+		// 終了時間のUPDATE用SQL文
+		String lastSql = "UPDATE attendance_management.work_info SET work_last = ?, real_last = ? WHERE emp_no = ? AND date = ?";
 
-		// DB
-		try {
-			// DB接続
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			con = DBConnect.getConnect();
-			stmt = con.createStatement();
-			pstmt = con.prepareStatement(sql);
-			System.out.println(2);
+		// 退勤レコード追加
+		try (Connection con = DBConnect.con();) {
 
-			// 対象レコードの検索
-			rs = stmt.executeQuery(countSql);
+			// 既存レコードの検索
+			PreparedStatement pstmt = con.prepareStatement(countSql);
+			pstmt.setString(1, queryForm.getEmpNum());
+			pstmt.setString(2, item.getToday());
+			ResultSet rs = pstmt.executeQuery();
 			rs.next();
-			count = rs.getInt("emp_no");
-			System.out.println(3);
+			int count = rs.getInt("emp_no"); 		// 検索用結果用の変数(0なら本日のレコード無し、1なら有り)
 
-			// UPDATE文の発行
-			if (count == 1){
-				pstmt.setString(1, lastTime);
-				pstmt.setString(2, nowTime);
-				pstmt.setString(3, empNum);
-				pstmt.setString(4, today);
+			// レコードのUPDATE（レコードが有る場合のみ(検索結果のcountが1)）
+			if (count == 1) {
+				pstmt = con.prepareStatement(lastSql);
+				pstmt.setString(1, item.getWorkTime());
+				pstmt.setString(2, item.getNowTime());
+				pstmt.setString(3, queryForm.getEmpNum());
+				pstmt.setString(4, item.getToday());
 				pstmt.executeUpdate();
 				pstmt.close();
-				queryForm.setMessage1(nowTime + "  お疲れ様でした！");
-				System.out.println("ok");
+				queryForm.setMessage(item.getNowTime() + "  本日もお疲れ様でした！");
+				queryForm.setErrorMessage("");
 			} else {
-				queryForm.setErrorMessage("既に帰社しています");
-				System.out.println("NG");
+				queryForm.setMessage("");
+				queryForm.setErrorMessage("既に退勤が押されています…");
 			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println(e + " ドライバのロードに失敗");
 		} catch (SQLException e) {
-			System.out.println("catch");
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				System.err.println(e);
-			}
-
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-			} catch (SQLException e) {
-				System.err.println(e);
-			}
-
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-			} catch (SQLException e) {
-				System.err.println(e);
-			}
+			System.out.println(e + "SQL文が間違っています");
+		} catch (Exception e) {
+			System.out.println(e + "Exception:" + e.getMessage());
 		}
 
 		// マッピングに値を返す

@@ -1,0 +1,59 @@
+package util;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public class Item {
+
+		static Calendar now = Calendar.getInstance();
+		int nowYear = now.get(Calendar.YEAR); 			// 現在 年
+		int nowMonth = now.get(Calendar.MONTH) + 1; 	// 現在 月（+1することで、1～12に対応）
+		int nowDay = now.get(Calendar.DATE); 			// 現在 日
+		static int nowHour = now.get(Calendar.HOUR_OF_DAY); 	// 現在 時
+		int nowMinute = now.get(Calendar.MINUTE); 		// 現在 分
+
+		public Item(){
+			// nowMinuteが0時、00に変更
+			if (nowMinute.equals("0")) {
+				nowMinute = "00";
+			}
+		}
+
+	// 現在の年月日を指定書式に変換 例)2015-06-17
+	public String getToday() {
+		Calendar now = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String today = sdf.format(now.getTime());
+		return (today);
+	}
+
+	// 現在の時間を指定書式に変換 例)23:59
+	public String getNowTime() {
+		String nowTime = nowHour + ":" + nowMinute;
+		return (nowTime);
+	}
+
+	// 出勤・退勤ボタンを押した際の分を、15分単位に繰上げ変換した時分
+	public String getWorkTime(){
+		int Hour = Item.nowHour; 						// 開始 時
+		String startMinute = null; 						// 開始 分
+
+		// 出勤ボタンを押した際の分を、15分単位に繰上げ変換
+		if (nowMinute == 0) {
+			startMinute = "00";
+		} else if (nowMinute <= 15) {
+			startMinute = "15";
+		} else if (nowMinute <= 30) {
+			startMinute = "30";
+		} else if (nowMinute <= 45) {
+			startMinute = "45";
+				} else {
+					startMinute = "00";
+					startHour = nowHour + 1;
+				}
+
+				// 出勤ボタンを押した時間を指定書式に変換 例)10:45
+				String startTime = String.valueOf(startHour) + ":" + startMinute;
+	}
+
+}

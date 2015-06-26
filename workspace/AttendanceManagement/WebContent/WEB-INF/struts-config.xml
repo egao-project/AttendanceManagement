@@ -58,7 +58,7 @@
         		scope="session"
         		validate="true"
         		input="/main.jsp">
-            <forward name="Success" path="/main.jsp" />
+            <forward name="NG" path="/main.jsp" />
         </action>
 
 		<!-- Submitボタン -->

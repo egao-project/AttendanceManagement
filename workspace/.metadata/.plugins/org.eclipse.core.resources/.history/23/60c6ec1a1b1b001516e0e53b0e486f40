@@ -1,0 +1,16 @@
+
+public class test {
+
+	public static void main(String[] args) {
+
+		String host = "localhost";
+		String dbname = "attendance_management";
+		String user = "root";
+		String pw = "abcd";
+		String url = "jdbc:mysql://" + host + "/" + dbname + "";
+
+		System.out.println(url);
+
+	}
+
+}
