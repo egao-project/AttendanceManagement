@@ -33,11 +33,11 @@ public class Work_Start extends Action {
 		queryForm.setErrorMessage("");
 
 		// 既存レコード有無検索用のSQL文
-		String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = ? and date = ?";
+		String countSql =  "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = ? AND date = ?";
 
 		// 出勤レコード追加のSQL文
 		String startSql = "INSERT INTO work_info (emp_no, date, work_year, work_month, work_day, work_start, real_start) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 		// 出勤レコード追加
 		try (Connection con = DBConnect.con();) {

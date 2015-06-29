@@ -13,35 +13,31 @@
 	<title>eGAO 就業時間管理 ログインページ</title>
 </head>
 
-<body id="body">
-
-	<img src="./img/egao.png" alt="eGAOロゴ" id="rogo">
+<body>
+	<img src="./img/egao.png" alt="eGAOロゴ" class="TitleRogo">
 	<br>
 	<br>
 	<br>
-	<div>
-		<html:form action="/Login_Nomal" method="POST">
-			<table id="table">
-				<tr>
-					<td>社 員 番 号：
-					<td><input type="text" name="empNum"  size="15" maxlength="4" placeholder="社員番号">
-				<tr>
-					<td>パスワード ：
-					<td><input type="text" name="empPass" size="15" maxlength="15" placeholder="パスワード">
-				<tr>
-					<bean:write name="AMForm" property="errorMessage" /><br>
-					<html:errors property="empNum"/><br>
-					<html:errors property="empPass" />
-				<tr>
-					<td colspan="2" height="10xp">
-				<tr>
-					<td><html:submit value="Admin" property="Login_Admin" styleClass="button"
-										onclick="form.action='Login_Admin.do';return true" />
-					<td><html:submit value="Login" property="Login_Nomal" styleClass="button" />
-			</table>
-		</html:form>
-	</div>
-
+	<html:form action="/Login_Nomal" method="POST">
+		<table>
+			<tr>
+				<td><bean:message key="input.empNum" />
+				<td><input type="text" name="empNum"  size="15" maxlength="4" placeholder="社員番号">
+			<tr>
+				<td><bean:message key="input.empPass" />
+				<td><input type="text" name="empPass" size="15" maxlength="15" placeholder="パスワード">
+			<tr>
+				<bean:write name="AMForm" property="errorMessage" /><br>
+				<html:errors property="empNum"/><br>
+				<html:errors property="empPass" />
+			<tr>
+				<td colspan="2" height="10xp">
+			<tr>
+				<td><html:submit value="Admin" property="Login_Admin" styleClass="button"
+													onclick="form.action='Login_Admin.do';return true" />
+				<td><html:submit value="Login" property="Login_Nomal" styleClass="button" />
+		</table>
+	</html:form>
 </body>
 
 </html:html>

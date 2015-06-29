@@ -1,103 +1,72 @@
 @CHARSET "UTF-8";
 
+/* body内部は全て中央寄せ */
 body {
-	text-align:center;
-	}
+	text-align: center;
+	font-family: sans-serif;
+}
 
-#rogo {
-	max-width: 100%; /* 最大幅 */
-	min-width: 25%; /* 最小幅 */
+/* イーガオのロゴ画像 */
+.TitleRogo {
+	max-width: 100%;
+	min-width: 25%;
 	border: none;
 }
 
-#submit_button {
-	width: auto;
-    padding:0;
-    margin:0;
-    background:none;
-    border:0;
-    font-size:0;
-    line-height:0;
-    overflow:visible;
-    cursor:pointer;
-}
-
-#text {
-	 font-size : 1em;
-}
-
-#time_button {
-	width: auto;
-    padding:0;
-    margin:0;
-    background:none;
-    border:0;
-    font-size:0;
-    line-height:0;
-    overflow:visible;
-    cursor:pointer;
-}
-
-div {
-	text-align:center;
-}
-
-#table {
-	margin-left:auto;margin-right:auto;
-}
-
-#table_main {
-	margin-left:auto;margin-right:auto;
-	height:50px;
+table {
+	margin-left: auto;
+	margin-right: auto;
+	height: 50px;
 	border-collapse: separate;
-	empty-cells: show;
 }
 
-tr {
-	empty-cells: show;
-}
-
+/* 空セルの表示 */
 td {
 	empty-cells: show;
 }
 
-#table_1 {
-	text-align:right;
-	margin-left:auto;margin-right:auto;
+/* テキスト右寄せ */
+.TextRight {
+	text-align: right;
 }
 
+/* 各画面の名前表示 */
 caption {
 	color: blue;
-	font:150% blue bold sans-serif;
+	font: 125% bold sans-serif;
 }
 
+/*
+---------- ボタン ----------
+Login・Admin・Submit・Delete・Output・戻る
+*/
 .button {
-	color:black;
-	background-color:orange;
-	border:1px solid;
-	cursor:pointer;
-	width:100px;
-	height:50px;
-	border-radius:5px;
+	color: black;
+	background-color: orange;
+	border: 1px solid;
+	cursor: pointer;
+	border-radius: 5px;
 	font-size: 120%;
 }
-
 .button:hover {
 	background-color: #00ff00;
 	letter-spacing: 2px;
 }
 
+/*
+---------- ボタン ----------
+出勤・退勤
+*/
 .button_work {
-	color:black;
-	background-color:#00ff00;
-	border:1px solid;
-	cursor:pointer;
-	width:100px;
-	height:50px;
-	border-radius:20px;
+	color: black;
+	background-color: #00ff00;
+	border: 1px solid;
+	cursor: pointer;
+	width: 100px;
+	height: 50px;
+	border-radius: 20px;
 	font-size: 120%;
 }
-
 .button_work:hover {
 	background-color: orange;
 	letter-spacing: 2px;

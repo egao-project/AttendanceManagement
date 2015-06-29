@@ -33,10 +33,10 @@ public class Work_Last extends Action {
 		queryForm.setErrorMessage("");
 
 		// 対象レコード検索用SQL文
-		String countSql = "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = ? and date = ? and work_last IS NULL";
+		String countSql = "SELECT COUNT(*) AS emp_no FROM work_info WHERE emp_no = ? AND date = ? AND work_last IS NULL";
 
 		// 終了時間のUPDATE用SQL文
-		String lastSql = "UPDATE attendance_management.work_info SET work_last = ?, real_last = ? WHERE emp_no = ? AND date = ?";
+		String lastSql = "UPDATE work_info SET work_last = ?, real_last = ? WHERE emp_no = ? AND date = ?";
 
 		// 退勤レコード追加
 		try (Connection con = DBConnect.con();) {

@@ -47,7 +47,7 @@ public class Output extends Action {
 		   例）勤怠実績（2015年6月） */
 		String dateCsv = "勤怠実績（" + queryForm.getOutput_year() + "年" + queryForm.getOutput_month() + "月度）";
 
-		// 検索用結果用の変数(0なら本日のレコード無し、0より上なら有り)
+		// 検索用結果用の変数(0なら本日のレコード無し、1以上なら有り)
 		int count = 0;
 
 		// 指定年月のCSVファイル出力
