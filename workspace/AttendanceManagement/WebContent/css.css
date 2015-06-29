@@ -1,73 +1,76 @@
 @CHARSET "UTF-8";
 
-/* body内部は全て中央寄せ */
 body {
-	text-align: center;
 	font-family: sans-serif;
 }
 
-/* イーガオのロゴ画像 */
-.TitleRogo {
-	max-width: 100%;
-	min-width: 25%;
-	border: none;
+div {
+	text-align: center;
 }
 
 table {
+	border-collapse: separate;
+	border-spacing: 0.5em 0.5em;
 	margin-left: auto;
 	margin-right: auto;
-	height: 50px;
-	border-collapse: separate;
+	width:100%;
+	height:100%;
 }
 
-/* 空セルの表示 */
 td {
+	width: 50%;
 	empty-cells: show;
 }
 
-/* テキスト右寄せ */
-.TextRight {
+/* 表示 右寄せ */
+.Right {
 	text-align: right;
 }
 
-/* 各画面の名前表示 */
-caption {
-	color: blue;
-	font: 125% bold sans-serif;
+/* 表示 左寄せ */
+.Left {
+	text-align: left;
 }
 
-/*
----------- ボタン ----------
-Login・Admin・Submit・Delete・Output・戻る
-*/
+/* 各画面の名前表示 */
+.Name {
+	color: blue;
+	font: 150% bold;
+}
+
+/* 空セル */
+.Empty {
+	height: 1em;
+	empty-cells: show;
+}
+
+/* エラーメッセージ等 */
+.message {
+	color: red;
+}
+
+/* ---------- ボタン ----------
+	Login・Admin・Submit・Delete・Output・戻る */
 .button {
 	color: black;
 	background-color: orange;
 	border: 1px solid;
 	cursor: pointer;
+	width: auto;
+	height: 2em;
 	border-radius: 5px;
 	font-size: 120%;
 }
-.button:hover {
-	background-color: #00ff00;
-	letter-spacing: 2px;
-}
 
-/*
----------- ボタン ----------
-出勤・退勤
-*/
+/* ---------- ボタン ----------
+	出勤・退勤 */
 .button_work {
 	color: black;
 	background-color: #00ff00;
-	border: 1px solid;
+	border: 2px solid;
 	cursor: pointer;
-	width: 100px;
-	height: 50px;
+	width: 5em;
+	height: 3em;
 	border-radius: 20px;
 	font-size: 120%;
-}
-.button_work:hover {
-	background-color: orange;
-	letter-spacing: 2px;
 }

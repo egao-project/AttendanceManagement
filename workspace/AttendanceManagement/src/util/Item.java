@@ -20,9 +20,9 @@ public class Item {
 		nowHour = now.get(Calendar.HOUR_OF_DAY);
 		nowMinute = now.get(Calendar.MINUTE);
 		nowMinute_S = String.valueOf(nowMinute);
-		// nowMinuteが0の際、00に変更
-		if (nowMinute == 0) {
-			nowMinute_S = "00";
+		// nowMinuteが10以下の際、頭に0を付ける
+		if (nowMinute < 10) {
+			nowMinute_S = "0" + nowMinute;
 		}
 	}
 
@@ -35,7 +35,7 @@ public class Item {
 
 	// 現在の時間を指定書式に変換 例)23:59
 	public String getNowTime() {
-		return (nowHour + ":" + nowMinute);
+		return (nowHour + ":" + nowMinute_S);
 	}
 
 	// 現在の時間を15分単位に繰上げし、指定書式に変換 例)18:47 → 19:00
@@ -59,6 +59,6 @@ public class Item {
 		return (String.valueOf(hour) + ":" + minute);
 	}
 
-	
+
 
 }
