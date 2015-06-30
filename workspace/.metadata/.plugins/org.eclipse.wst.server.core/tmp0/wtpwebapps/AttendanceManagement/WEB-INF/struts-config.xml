@@ -80,6 +80,14 @@
         		input="/admin.jsp">
             <forward name="Del_Employee" path="/admin.jsp" />
         </action>
+
+        <!-- 戻るボタン -->
+        <action path="/Back"
+        		type="action.Back"
+        		name="AMForm"
+        		scope="request">
+            <forward name="Back" path="/login.jsp" />
+        </action>
     </action-mappings>
 
     <message-resources parameter="ApplicationResources" />

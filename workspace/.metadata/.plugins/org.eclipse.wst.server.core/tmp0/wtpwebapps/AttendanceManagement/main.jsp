@@ -15,28 +15,24 @@
 
 <body>
 	<div>
-
 		<table>
 			<tr><td colspan="2"><img src="./img/egao.png" alt="eGAOロゴ">
 			<tr><td colspan="2" class="Empty">
 			<tr><td colspan="2" class="Name"><bean:write name="AMForm" property="empName" />さん
-			<tr><td class="Right"><html:link href="http://localhost:8080/AttendanceManagement/StartTime.do">
-									<html:button value="出 勤" property="StartTime" styleClass="button_work" /></html:link>
-				<td class="Left"><html:link href="http://localhost:8080/AttendanceManagement/LastTime.do">
-									<html:button value="退 勤" property="LastTime"  styleClass="button_work" /></html:link>
+			<tr><td class="Right"><html:button value="出 勤" property="StartTime" styleClass="button_work"  onclick="location.href='./StartTime.do'"/>
+				<td class="Left"><html:button value="退 勤" property="LastTime"  styleClass="button_work"  onclick="location.href='./LastTime.do'"/>
 			<tr><td colspan="2" class="Empty">
 			<html:form action="/output">
 			<tr><td colspan="2"><input type="text" name="output_year"  size="4" maxlength="4" placeholder="2015">年
 								<input type="text" name="output_month" size="2" maxlength="2" placeholder="6">月
 			<tr><td colspan="2" ><html:submit value="Output" styleClass="button" />
 			<tr><td colspan="2" >
-					<html:button value="戻る" property="back" styleClass="button" onclick="location.href='./login.jsp'" /></html:form>
-			<tr><td colspan="2" class="message">
-					<bean:write name="AMForm" property="message" /><bean:write name="AMForm" property="errorMessage" /><br>
-					<html:errors property="output_year"/><br>
-					<html:errors property="output_month"/>
+					<html:button value="戻る" property="Back" styleClass="button" onclick="location.href='./Back.do'" /></html:form>
+			<tr><td colspan="2"><bean:write name="AMForm" property="message" />
+					<div class="message"><bean:write name="AMForm" property="errorMessage" /><br>
+										<html:errors property="output_year"/><br>
+										<html:errors property="output_month"/></div>
 		</table>
-
 	</div>
 </body>
 

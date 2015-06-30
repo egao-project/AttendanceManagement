@@ -14,49 +14,32 @@
 </head>
 
 <body>
-	<img src="./img/egao.png" alt="eGAOロゴ" class="TitleRogo">
-	<br>
-	<br>
-	<br>
-	<html:form action="/EmployeeAdd" method="POST">
+	<div>
+		<html:form action="/EmployeeAdd" method="POST">
 		<table>
-			<caption>管理ページ</caption>
-			<tr>
-				<td colspan="2" height="10xp">
-			<tr>
-				<td><bean:message key="input.empNum" />
-				<td><input type="text" name="empNum" maxlength="4" placeholder="社員番号">
-			<tr>
-				<td colspan="2" height="5xp">
-			<tr>
-				<td class="TextRight"><bean:message key="input.empName" />
-				<td><input type="text" name="empName" maxlength="10" placeholder="名前">
-			<tr>
-				<td colspan="2" height="5xp">
-			<tr>
-				<td><bean:message key="input.empPass" />
-				<td><input type="text" name="empPass" maxlength="10" placeholder="パスワード">
+			<tr><td colspan="2"><img src="./img/egao.png" alt="eGAOロゴ">
+			<tr><td colspan="2" class="Empty">
+			<tr><td colspan="2" class="Name">管理ページ
+			<tr><td colspan="2" class="Empty">
+			<tr><td class="Right"><bean:message key="input.empNum" />
+				<td class="Left"><input type="text" name="empNum" maxlength="4" placeholder="社員番号">
+			<tr><td class="Right"><bean:message key="input.empName" />
+				<td class="Left"><input type="text" name="empName" maxlength="10" placeholder="名前">
+			<tr><td class="Right"><bean:message key="input.empPass" />
+				<td class="Left"><input type="text" name="empPass" maxlength="10" placeholder="パスワード">
+			<tr><td colspan="2" class="Empty">
+			<tr><td class="Right"><html:submit value="Submit" property="EmployeeAdd" styleClass="button" />
+				<td class="Left"><html:submit value="Delete" property="EmployeeDel" styleClass="button"
+									onclick="form.action='EmployeeDel.do';return true" />
+			<tr><td colspan="2"><html:button value="戻る" property="Back" styleClass="button" onclick="location.href='./Back.do'" />
+			<tr><td colspan="2"><bean:write name="AMForm" property="message" />
+								<div class="message"><bean:write name="AMForm" property="errorMessage" /><br>
+												<html:errors property="empNum" /><br>
+												<html:errors property="empName" /><br>
+												<html:errors property="empPass" /></div>
 		</table>
-
-			<bean:write name="AMForm" property="message" /><bean:write name="AMForm" property="errorMessage" /><br>
-			<html:errors property="empNum" /><br>
-			<html:errors property="empName" /><br>
-			<html:errors property="empPass" />
-
-		<table>
-			<tr>
-				<td><html:submit value="Submit" property="EmployeeAdd" styleClass="button" />
-				<td width="50px">
-				<td><html:submit value="Delete" property="EmployeeDel" styleClass="button"
-						onclick="form.action='EmployeeDel.do';return true" />
-			<tr>
-				<td colspan="3" height="10xp">
-			<tr>
-				<td width="50px">
-				<td><html:button value="戻る" property="back" styleClass="button"
-						onclick="location.href='./login.jsp'" />
-		</table>
-	</html:form>
+		</html:form>
+	</div>
 </body>
 
 </html:html>
