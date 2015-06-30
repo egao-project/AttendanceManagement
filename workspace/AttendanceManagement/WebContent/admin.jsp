@@ -19,7 +19,7 @@
 		<table>
 			<tr><td colspan="2"><img src="./img/egao.png" alt="eGAOロゴ">
 			<tr><td colspan="2" class="Empty">
-			<tr><td colspan="2" class="Name">管理ページ
+			<tr><td colspan="2" class="Name"><bean:message key="admin_page" />
 			<tr><td colspan="2" class="Empty">
 			<tr><td class="Right"><bean:message key="input.empNum" />
 				<td class="Left"><input type="text" name="empNum" maxlength="4" placeholder="社員番号">

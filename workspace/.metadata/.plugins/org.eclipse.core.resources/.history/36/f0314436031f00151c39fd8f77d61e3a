@@ -1,0 +1,11 @@
+
+public class tast {
+
+	public static void main(String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+		String osName = System.getProperty("os.name");
+	    System.out.println(osName);
+
+	}
+
+}

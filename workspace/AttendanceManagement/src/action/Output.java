@@ -68,13 +68,21 @@ public class Output extends Action {
 				queryForm.setMessage("");
 				queryForm.setErrorMessage("入力した年月の情報はありません");
 			} else {
-				String filename = new String(csvName.getBytes("Windows-31J"),"ISO-8859-1");
 
-				// HTTPヘッダの出力
-				response.setContentType("application/octet-stream;charset=Windows-31J");
-				response.setHeader("Content-disposition","attachment; filename=\"" + filename + "\"");
+				// OS情報を取得し、文字コード変更
+				if(System.getProperty("os.name").startsWith("Win")){	// Windowsの場合
+					String filename = new String(csvName.getBytes("Windows-31J"),"ISO-8859-1");
+					// HTTPヘッダの出力
+					response.setContentType("application/octet-stream;charset=Windows-31J");
+					response.setHeader("Content-disposition","attachment; filename=\"" + filename + "\"");
+				} else {												// それ以外
+					String filename = new String(csvName.getBytes(),"ISO-8859-1");
+					// HTTPヘッダの出力
+					response.setContentType("application/octet-stream;charset=UTF-8");
+					response.setHeader("Content-disposition","attachment; filename=\"" + filename + "\"");
+				}
+
 				response.flushBuffer();
-
 				PrintWriter out = response.getWriter();
 
 				// 対象レコードの抽出

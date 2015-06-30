@@ -1,9 +1,0 @@
-
-public class Sample2 {
-
-	public static void main(String[] args) {
-		String xml = "<?xml version="1.0" encoding="UTF-8" standalone="yes"?>";
-
-	}
-
-}

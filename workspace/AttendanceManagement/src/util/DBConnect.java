@@ -10,8 +10,8 @@ public class DBConnect {
 		String host = "localhost";
 		String dbname = "attendance_management";
 		String user = "root";
-		String pw = "abcd";
-//		String pw = "ja0007ks";
+		String pw = "abcd";				// 滝本
+//		String pw = "ja0007ks";			// 大滝
 		String url = "jdbc:mysql://" + host + "/" + dbname + "";
 		return (DriverManager.getConnection(url, user, pw));
 	}
@@ -20,9 +20,7 @@ public class DBConnect {
 	public static Connection con() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
 		Connection con = null;
 		Class.forName("com.mysql.jdbc.Driver").newInstance(); 		// ドライバをロード
-		System.out.println("ドライバのロードに成功しました"); 		// コンソール確認用
 		con = DBConnect.getConnect(); 								// MySQLにコネクト
-		System.out.println("データベース接続に成功しました"); 		// 確認用
-		return con;
+		return (con);
 	}
 }
