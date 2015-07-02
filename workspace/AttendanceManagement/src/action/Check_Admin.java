@@ -43,12 +43,19 @@ public class Check_Admin extends Action {
 				if (count < rs.getRow()) {
 					// 一致しなければ認証失敗
 					if (queryForm.getEmpNum().startsWith("M")) {
-						if (queryForm.getEmpPass().equals(rs.getString("emp_pass"))) {
-							check = "OK";
-							queryForm.setErrorMessage("");
-							break;
+						if (queryForm.getEmpNum()
+								.equals(rs.getString("emp_no"))) {
+							if (queryForm.getEmpPass().equals(
+									rs.getString("emp_pass"))) {
+								check = "OK";
+								queryForm.setErrorMessage("");
+								break;
+							} else {
+								queryForm.setErrorMessage("パスワードが間違っています");
+								break;
+							}
 						} else {
-							queryForm.setErrorMessage("番号とパスワードの組み合わせが間違っています");
+							queryForm.setErrorMessage("管理者権限のない番号です");
 						}
 
 					} else {
