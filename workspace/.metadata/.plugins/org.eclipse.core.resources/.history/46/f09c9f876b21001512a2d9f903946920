@@ -82,10 +82,7 @@ public class Check_Nomal extends Action {
 			return (mapping.findForward("Top"));
 		} else if (check.equals("OK")){
 			return (mapping.findForward("Nomal"));
-		} else if (check.equals("NG")){
-			return (mapping.findForward("Top"));
 		} else {
-			queryForm.setErrorMessage("エラー番号205が発生しました。管理者にお問い合わせ下さい");
 			return (mapping.findForward("Top"));
 		}
 	}
