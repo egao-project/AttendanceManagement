@@ -31,11 +31,10 @@ public class Check_Nomal extends Action {
 
 		// 認証処理用の変数
 		int count = 0;
-		String check = "NG";
+		String check = null;
 
 		//DB接続
 		try (Connection con = DBConnect.con();) {
-
 			// 入力した社員番号と一致するレコード取得
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, queryForm.getEmpNum());
@@ -47,6 +46,7 @@ public class Check_Nomal extends Action {
 				if (count == 1) {
 					// 一致しなければ認証失敗
 					if (!queryForm.getEmpPass().equals(rs.getString("emp_pass"))) {
+						check = "NG";
 						queryForm.setErrorMessage("パスワードが間違っています");
 					} else {
 						check = "OK";
@@ -58,19 +58,29 @@ public class Check_Nomal extends Action {
 
 			// 0件ならば認証失敗
 			if (count == 0) {
+				check = "NG";
 				queryForm.setErrorMessage("登録がない番号です。");
 			}
 
-		} catch (ClassNotFoundException e) {
-			System.out.println("ClassNotFoundException:" + e.getMessage());
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			check = "NG";
+			queryForm.setErrorMessage("エラー番号201が発生しました。管理者にお問い合わせ下さい");
 		} catch (SQLException e) {
-			System.out.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			check = "NG";
+			queryForm.setErrorMessage("エラー番号202が発生しました。管理者にお問い合わせ下さい");
 		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
+			e.printStackTrace();
+			check = "NG";
+			queryForm.setErrorMessage("エラー番号203が発生しました。管理者にお問い合わせ下さい");
 		}
 
 		// マッピングに値を返す
-		if (check.equals("OK")) {
+		if (check == null) {
+			queryForm.setErrorMessage("エラー番号204が発生しました。管理者にお問い合わせ下さい");
+			return (mapping.findForward("Top"));
+		} else if (check.equals("OK")){
 			return (mapping.findForward("Nomal"));
 		} else {
 			return (mapping.findForward("Top"));

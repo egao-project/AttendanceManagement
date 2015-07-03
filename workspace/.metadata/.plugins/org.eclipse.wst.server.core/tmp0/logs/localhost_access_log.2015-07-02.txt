@@ -105,3 +105,8 @@
 0:0:0:0:0:0:0:1 - - [02/Jul/2015:15:07:49 +0900] "POST /AttendanceManagement/output.do HTTP/1.1" 200 1749
 0:0:0:0:0:0:0:1 - - [02/Jul/2015:15:08:34 +0900] "POST /AttendanceManagement/output.do HTTP/1.1" 200 1749
 0:0:0:0:0:0:0:1 - - [02/Jul/2015:15:08:38 +0900] "GET /AttendanceManagement/Back.do HTTP/1.1" 200 1425
+127.0.0.1 - - [02/Jul/2015:18:06:48 +0900] "GET / HTTP/1.1" 404 1019
+0:0:0:0:0:0:0:1 - - [02/Jul/2015:18:06:49 +0900] "GET /AttendanceManagement/login.jsp HTTP/1.1" 200 1469
+0:0:0:0:0:0:0:1 - - [02/Jul/2015:18:06:49 +0900] "GET /AttendanceManagement/img/egao.png HTTP/1.1" 200 66399
+0:0:0:0:0:0:0:1 - - [02/Jul/2015:18:06:49 +0900] "GET /AttendanceManagement/css.css HTTP/1.1" 200 1439
+0:0:0:0:0:0:0:1 - - [02/Jul/2015:18:06:49 +0900] "GET /favicon.ico HTTP/1.1" 404 1041

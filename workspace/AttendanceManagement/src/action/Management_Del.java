@@ -62,12 +62,12 @@ public class Management_Del extends Action {
 				queryForm.setErrorMessage("登録がありません。");
 			}
 
-		} catch (ClassNotFoundException e) {
-			System.out.println("ClassNotFoundException:" + e.getMessage());
 		} catch (SQLException e) {
-			System.out.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			queryForm.setErrorMessage("エラー番号401が発生しました。管理者にお問い合わせ下さい");
 		} catch (Exception e) {
-			System.out.println("Exception:" + e.getMessage());
+			e.printStackTrace();
+			queryForm.setErrorMessage("エラー番号402が発生しました。管理者にお問い合わせ下さい");
 		}
 
 		// マッピングに値を返す

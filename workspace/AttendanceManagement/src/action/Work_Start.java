@@ -70,12 +70,14 @@ public class Work_Start extends Action {
 				System.out.println("レコード追加 失敗");
 			}
 
-		} catch (ClassNotFoundException e) {
-			System.out.println(e + "ドライバのロードに失敗");
 		} catch (SQLException e) {
-			System.out.println(e + "SQL文が間違い");
+			e.printStackTrace();
+			queryForm.setMessage("");
+			queryForm.setErrorMessage("エラー番号701が発生しました。管理者にお問い合わせ下さい");
 		} catch (Exception e) {
-			System.out.println(e + "Exception:" + e.getMessage());
+			e.printStackTrace();
+			queryForm.setMessage("");
+			queryForm.setErrorMessage("エラー番号702が発生しました。管理者にお問い合わせ下さい");
 		}
 
 		// マッピングに値を返す

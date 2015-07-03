@@ -119,12 +119,16 @@ public class Output extends Action {
 				queryForm.setMessage("");
 				queryForm.setErrorMessage("");
 			}
-		} catch (ClassNotFoundException e) {
-			System.out.println(e + " ドライバのロードに失敗");
 		} catch (SQLException e) {
-			System.out.println(e + " SQL文が間違い");
+			count = 0;
+			e.printStackTrace();
+			queryForm.setMessage("");
+			queryForm.setErrorMessage("エラー番号501が発生しました。管理者にお問い合わせ下さい");
 		} catch (Exception e) {
-			System.out.println(e + " Exception:" + e.getMessage());
+			count = 0;
+			e.printStackTrace();
+			queryForm.setMessage("");
+			queryForm.setErrorMessage("エラー番号502が発生しました。管理者にお問い合わせ下さい");
 		}
 
 		// マッピングに値を返す
