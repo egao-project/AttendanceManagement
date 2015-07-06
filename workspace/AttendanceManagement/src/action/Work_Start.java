@@ -65,19 +65,19 @@ public class Work_Start extends Action {
 				queryForm.setMessage(item.getNowTime() + "  本日もお願いします！");
 				queryForm.setErrorMessage("");
 			} else {
-				queryForm.setMessage("");
 				queryForm.setErrorMessage("既に出勤が押されています…");
 				System.out.println("レコード追加 失敗");
 			}
 
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			queryForm.setErrorMessage("エラー番号701が発生しました。管理者にお問い合わせ下さい");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			queryForm.setMessage("");
-			queryForm.setErrorMessage("エラー番号701が発生しました。管理者にお問い合わせ下さい");
+			queryForm.setErrorMessage("エラー番号702が発生しました。管理者にお問い合わせ下さい");
 		} catch (Exception e) {
 			e.printStackTrace();
-			queryForm.setMessage("");
-			queryForm.setErrorMessage("エラー番号702が発生しました。管理者にお問い合わせ下さい");
+			queryForm.setErrorMessage("エラー番号703が発生しました。管理者にお問い合わせ下さい");
 		}
 
 		// マッピングに値を返す

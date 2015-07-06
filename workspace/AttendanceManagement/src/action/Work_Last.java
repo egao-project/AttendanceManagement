@@ -65,14 +65,15 @@ public class Work_Last extends Action {
 				queryForm.setErrorMessage("既に退勤が押されています…");
 			}
 
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			queryForm.setErrorMessage("エラー番号601が発生しました。管理者にお問い合わせ下さい");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			queryForm.setMessage("");
-			queryForm.setErrorMessage("エラー番号601が発生しました。管理者にお問い合わせ下さい");
+			queryForm.setErrorMessage("エラー番号602が発生しました。管理者にお問い合わせ下さい");
 		} catch (Exception e) {
 			e.printStackTrace();
-			queryForm.setMessage("");
-			queryForm.setErrorMessage("エラー番号602が発生しました。管理者にお問い合わせ下さい");
+			queryForm.setErrorMessage("エラー番号603が発生しました。管理者にお問い合わせ下さい");
 		}
 
 		// マッピングに値を返す

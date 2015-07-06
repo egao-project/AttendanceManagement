@@ -11,6 +11,8 @@ public class Item {
 	public static int nowHour = 0; 				// 現在 時
 	public static int nowMinute = 0; 			// 現在 分
 	public static String nowMinute_S = null;	// 現在 分（String）
+	public static String success = "OK";
+	public static String fault = "NG";
 
 	public Item() {
 		Calendar now = Calendar.getInstance();
@@ -59,6 +61,12 @@ public class Item {
 		return (String.valueOf(hour) + ":" + minute);
 	}
 
+	public String getSuccess() {
+		return this.success;
+	}
 
-
+	public String getFault() {
+		return this.fault;
+	}
+	
 }

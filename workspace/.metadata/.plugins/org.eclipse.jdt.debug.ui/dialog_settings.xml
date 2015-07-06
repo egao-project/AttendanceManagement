@@ -24,4 +24,20 @@
 			<item value="-13" key="DIALOG_Y_ORIGIN"/>
 		</section>
 	</section>
+	<section name="STRING_VALUE_INPUT_DIALOG">
+		<item value="false" key="USE_EVALUATION"/>
+		<item value="390" key="DIALOG_WIDTH"/>
+		<item value="1|Meiryo UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Meiryo UI" key="DIALOG_FONT_NAME"/>
+		<item value="462" key="DIALOG_HEIGHT"/>
+		<item value="true" key="WRAP_TEXT"/>
+		<item value="614" key="DIALOG_X_ORIGIN"/>
+		<item value="127" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="EXPRESSION_INPUT_DIALOG">
+		<item value="646" key="DIALOG_WIDTH"/>
+		<item value="1|Meiryo UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Meiryo UI" key="DIALOG_FONT_NAME"/>
+		<item value="431" key="DIALOG_HEIGHT"/>
+		<item value="486" key="DIALOG_X_ORIGIN"/>
+		<item value="148" key="DIALOG_Y_ORIGIN"/>
+	</section>
 </section>

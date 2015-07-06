@@ -14,6 +14,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import util.DBConnect;
+import util.Item;
 import action.form.AM_form;
 
 public class Check_Nomal extends Action {
@@ -25,6 +26,7 @@ public class Check_Nomal extends Action {
 
 		// アクションフォームに値を格納する為に定義
 		AM_form queryForm = (AM_form) form;
+		Item item = new Item();
 
 		// 入力した社員番号と一致するレコード取得のSQL文
 		String sql = "SELECT * FROM employee WHERE emp_no = ?";
@@ -46,10 +48,10 @@ public class Check_Nomal extends Action {
 				if (count == 1) {
 					// 一致しなければ認証失敗
 					if (!queryForm.getEmpPass().equals(rs.getString("emp_pass"))) {
-						check = "NG";
+						check = item.getFault();
 						queryForm.setErrorMessage("パスワードが間違っています");
 					} else {
-						check = "OK";
+						check = item.getSuccess();;
 						queryForm.setEmpName(rs.getString("emp_name"));
 						queryForm.setErrorMessage("");
 					}
@@ -58,21 +60,21 @@ public class Check_Nomal extends Action {
 
 			// 0件ならば認証失敗
 			if (count == 0) {
-				check = "NG";
+				check = item.getFault();
 				queryForm.setErrorMessage("登録がない番号です。");
 			}
 
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			check = "NG";
+			check = item.getFault();
 			queryForm.setErrorMessage("エラー番号201が発生しました。管理者にお問い合わせ下さい");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			check = "NG";
+			check = item.getFault();
 			queryForm.setErrorMessage("エラー番号202が発生しました。管理者にお問い合わせ下さい");
 		} catch (Exception e) {
 			e.printStackTrace();
-			check = "NG";
+			check = item.getFault();
 			queryForm.setErrorMessage("エラー番号203が発生しました。管理者にお問い合わせ下さい");
 		}
 
@@ -80,9 +82,9 @@ public class Check_Nomal extends Action {
 		if (check == null) {
 			queryForm.setErrorMessage("エラー番号204が発生しました。管理者にお問い合わせ下さい");
 			return (mapping.findForward("Top"));
-		} else if (check.equals("OK")){
+		} else if (check.equals( item.getSuccess())){
 			return (mapping.findForward("Nomal"));
-		} else if (check.equals("NG")){
+		} else if (check.equals(item.getFault())){
 			return (mapping.findForward("Top"));
 		} else {
 			queryForm.setErrorMessage("エラー番号205が発生しました。管理者にお問い合わせ下さい");

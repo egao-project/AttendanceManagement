@@ -1,6 +1,7 @@
 package action;
 
 import util.DBConnect;
+import util.Item;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,6 +28,7 @@ public class Check_Admin extends Action {
 
 		// アクションフォーム利用の為の定義
 		AM_form queryForm = (AM_form) form;
+		Item item = new Item();
 
 		// 社員番号の頭文字にMがつくレコード取得のSQL文
 		String sql = "SELECT * FROM employee WHERE emp_no LIKE 'M%'";
@@ -45,23 +47,25 @@ public class Check_Admin extends Action {
 				if (count < rs.getRow()) {
 					// 一致しなければ認証失敗
 					if (queryForm.getEmpNum().startsWith("M")) {
-						if (queryForm.getEmpNum().equals(rs.getString("emp_no"))) {
-							if (queryForm.getEmpPass().equals(rs.getString("emp_pass"))) {
-								check = "OK";
+						if (queryForm.getEmpNum()
+								.equals(rs.getString("emp_no"))) {
+							if (queryForm.getEmpPass().equals(
+									rs.getString("emp_pass"))) {
+								check = item.getSuccess();
 								queryForm.setErrorMessage("");
 								break;
 							} else {
-								check = "NG";
+								check = item.getFault();
 								queryForm.setErrorMessage("パスワードが間違っています");
 								break;
 							}
 						} else {
-							check = "NG";
+							check = item.getFault();
 							queryForm.setErrorMessage("管理者権限のない番号です");
 						}
 
 					} else {
-						check = "NG";
+						check = item.getFault();
 						queryForm.setErrorMessage("管理者権限のない番号です");
 					}
 				}
@@ -69,15 +73,15 @@ public class Check_Admin extends Action {
 			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			check = "NG";
+			check = item.getFault();
 			queryForm.setErrorMessage("エラー番号101が発生しました。管理者にお問い合わせ下さい");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			check = "NG";
+			check = item.getFault();
 			queryForm.setErrorMessage("エラー番号102が発生しました。管理者にお問い合わせ下さい");
 		} catch (Exception e) {
 			e.printStackTrace();
-			check = "NG";
+			check = item.getFault();
 			queryForm.setErrorMessage("エラー番号103が発生しました。管理者にお問い合わせ下さい");
 		}
 
@@ -85,9 +89,12 @@ public class Check_Admin extends Action {
 		if (check == null) {
 			queryForm.setErrorMessage("エラー番号104が発生しました。管理者にお問い合わせ下さい");
 			return (mapping.findForward("Top"));
-		} else if (check.equals("OK")) {
+		} else if (check.equals(item.getSuccess())) {
 			return (mapping.findForward("Admin"));
+		} else if (check.equals(item.getFault())) {
+			return (mapping.findForward("Top"));
 		} else {
+			queryForm.setErrorMessage("エラー番号105が発生しました。管理者にお問い合わせ下さい");
 			return (mapping.findForward("Top"));
 		}
 	}
