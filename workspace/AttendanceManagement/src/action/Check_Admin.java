@@ -47,10 +47,8 @@ public class Check_Admin extends Action {
 				if (count < rs.getRow()) {
 					// 一致しなければ認証失敗
 					if (queryForm.getEmpNum().startsWith("M")) {
-						if (queryForm.getEmpNum()
-								.equals(rs.getString("emp_no"))) {
-							if (queryForm.getEmpPass().equals(
-									rs.getString("emp_pass"))) {
+						if (queryForm.getEmpNum().equals(rs.getString("emp_no"))) {
+							if (queryForm.getEmpPass().equals(rs.getString("emp_pass"))) {
 								check = item.getSuccess();
 								queryForm.setErrorMessage("");
 								break;
@@ -71,6 +69,7 @@ public class Check_Admin extends Action {
 				}
 				count++;
 			}
+
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			check = item.getFault();

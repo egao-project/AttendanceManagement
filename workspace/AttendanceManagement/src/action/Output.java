@@ -43,8 +43,7 @@ public class Output extends Action {
 					+ queryForm.getOutput_year() + queryForm.getOutput_month() + ".csv";
 		}
 
-		/* CSVの中身に入れるコメント
-		   例）勤怠実績（2015年6月） */
+		// CSVの中身に入れるコメント 例）勤怠実績（2015年6月）
 		String dateCsv = "勤怠実績（" + queryForm.getOutput_year() + "年" + queryForm.getOutput_month() + "月度）";
 
 		// 検索用結果用の変数(0なら本日のレコード無し、1以上なら有り)
@@ -63,11 +62,12 @@ public class Output extends Action {
 			rs.next();
 			count = rs.getInt("emp_no");
 
-			// 入力年月が無ければエラーメッセージの表示、あれば出力
+			// 入力年月が無ければエラーメッセージのセット、あれば出力
 			if (count == 0) {
-				queryForm.setMessage("");
 				queryForm.setErrorMessage("入力した年月の情報はありません");
-			} else {
+			} else if (count < 0){
+				queryForm.setErrorMessage("エラー番号504が発生しました。管理者にお問い合わせ下さい");
+			} else if (count >= 1) {
 
 				// OS情報を取得し、文字コード変更
 				if(System.getProperty("os.name").startsWith("Win")){	// Windowsの場合
@@ -85,7 +85,7 @@ public class Output extends Action {
 				response.flushBuffer();
 				PrintWriter out = response.getWriter();
 
-				// 対象レコードの抽出
+				// 対象レコードの指定カラムの取得
 				String csvSql = "SELECT date, work_start, work_last, real_start, real_last FROM work_info "
 						+ "where emp_no = ? AND work_year = ? AND work_month = ?";
 				System.out.println(csvSql);
@@ -114,10 +114,6 @@ public class Output extends Action {
 				}
 				out.flush();
 				out.close();
-
-				// メッセージを初期化
-				queryForm.setMessage("");
-				queryForm.setErrorMessage("");
 			}
 
 		} catch (NullPointerException e) {
@@ -133,6 +129,8 @@ public class Output extends Action {
 
 		// マッピングに値を返す
 		if (count == 0) {
+			return (mapping.findForward("NG"));
+		} else if (count < 0){
 			return (mapping.findForward("NG"));
 		} else {
 			return null;

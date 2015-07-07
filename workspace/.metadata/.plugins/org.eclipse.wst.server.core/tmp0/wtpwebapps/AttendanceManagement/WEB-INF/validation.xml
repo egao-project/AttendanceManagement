@@ -68,10 +68,6 @@
                     <var-name>maxlength</var-name>
                     <var-value>10</var-value>
                 </var>
-                <var>
-                    <var-name>mask</var-name>
-                    <var-value>^[a-zA-Z0-9]*$ </var-value>
-                </var>
             </field>
 
 

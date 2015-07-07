@@ -51,10 +51,13 @@ public class Check_Nomal extends Action {
 						check = item.getFault();
 						queryForm.setErrorMessage("パスワードが間違っています");
 					} else {
-						check = item.getSuccess();;
+						check = item.getSuccess();
 						queryForm.setEmpName(rs.getString("emp_name"));
 						queryForm.setErrorMessage("");
 					}
+				} else if (count > 1) {
+					check = item.getFault();
+					queryForm.setErrorMessage("エラー番号206が発生しました。管理者にお問い合わせ下さい");
 				}
 			}
 

@@ -6,13 +6,13 @@ import java.util.Calendar;
 public class Item {
 
 	public static int nowYear = 0; 				// 現在 年
-	public static int nowMonth = 0; 			// 現在 月（+1することで、1～12に対応）
+	public static int nowMonth = 0; 			// 現在 月（+1することで、1～12の月に対応）
 	public static int nowDay = 0; 				// 現在 日
 	public static int nowHour = 0; 				// 現在 時
 	public static int nowMinute = 0; 			// 現在 分
 	public static String nowMinute_S = null;	// 現在 分（String）
-	public String success = "OK";
-	public String fault = "NG";
+	public String success = "OK";				// 条件がtrueの際に使用
+	public String fault = "NG";					// 条件がfalseの際に使用
 
 	public Item() {
 		Calendar now = Calendar.getInstance();
@@ -61,10 +61,12 @@ public class Item {
 		return (String.valueOf(hour) + ":" + minute);
 	}
 
+	// 条件がtrueの際に使用
 	public String getSuccess() {
 		return this.success;
 	}
 
+	// 条件がfalseの際に使用
 	public String getFault() {
 		return this.fault;
 	}

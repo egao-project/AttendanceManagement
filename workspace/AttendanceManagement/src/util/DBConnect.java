@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class DBConnect {
 
-	// DB接続用URL
+	// DB接続用URL(滝本・大滝のローカル環境)
 	public static Connection getConnect() throws SQLException {
 		String host = "localhost";
 		String dbname = "attendance_management";

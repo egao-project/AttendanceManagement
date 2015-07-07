@@ -32,9 +32,6 @@ public class Management_Add extends Action {
 		// レコードが無ければINSERT、有ればUPDATEのSQL文
 		String newsql = "INSERT INTO employee VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE emp_name=?, emp_pass=?";
 
-		// 認証処理用の変数
-		int count = 0;
-
 		// DB接続
 		try (Connection con = DBConnect.con();) {
 
@@ -44,14 +41,11 @@ public class Management_Add extends Action {
 
 			// メッセージの格納
 			while (rs.next()) {
-				count++;
-				if (count > 0) {
-					if (queryForm.getEmpNum().equals(rs.getString("emp_no"))) {
-						queryForm.setMessage("修正完了");
-						break;
-					} else {
-						queryForm.setMessage("登録完了");
-					}
+				if (queryForm.getEmpNum().equals(rs.getString("emp_no"))) {
+					queryForm.setMessage("修正完了");
+					break;
+				} else {
+					queryForm.setMessage("登録完了");
 				}
 			}
 
@@ -64,12 +58,15 @@ public class Management_Add extends Action {
 			pstmt.setString(5, queryForm.getEmpPass());
 			pstmt.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 			queryForm.setErrorMessage("エラー番号301が発生しました。管理者にお問い合わせ下さい");
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			queryForm.setErrorMessage("エラー番号302が発生しました。管理者にお問い合わせ下さい");
+		} catch (Exception e) {
+			e.printStackTrace();
+			queryForm.setErrorMessage("エラー番号303が発生しました。管理者にお問い合わせ下さい");
 		}
 
 		// マッピングに値を返す
