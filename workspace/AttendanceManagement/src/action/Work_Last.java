@@ -41,28 +41,35 @@ public class Work_Last extends Action {
 		// 退勤レコード追加
 		try (Connection con = DBConnect.con();) {
 
-			// 既存レコードの検索
-			PreparedStatement pstmt = con.prepareStatement(countSql);
-			pstmt.setString(1, queryForm.getEmpNum());
-			pstmt.setString(2, item.getToday());
-			ResultSet rs = pstmt.executeQuery();
-			rs.next();
-			int count = rs.getInt("emp_no"); 		// 検索用結果用の変数(0なら本日のレコード無し、1なら有り)
-
-			// レコードのUPDATE（レコードが有る場合のみ(検索結果のcountが1)）
-			if (count == 1) {
-				pstmt = con.prepareStatement(lastSql);
-				pstmt.setString(1, item.getWorkTime());
-				pstmt.setString(2, item.getNowTime());
-				pstmt.setString(3, queryForm.getEmpNum());
-				pstmt.setString(4, item.getToday());
-				pstmt.executeUpdate();
-				pstmt.close();
-				queryForm.setMessage(item.getNowTime() + "  本日もお疲れ様でした！");
-				queryForm.setErrorMessage("");
+			// countSqlとstartSqlのどちらともnullではない時に出勤レコードを追加
+			if ( (countSql == null) || (lastSql == null)){
+				queryForm.setErrorMessage("エラー番号604が発生しました。管理者にお問い合わせ下さい");
 			} else {
-				queryForm.setMessage("");
-				queryForm.setErrorMessage("既に退勤が押されています…");
+
+				// 既存レコードの検索
+				PreparedStatement pstmt = con.prepareStatement(countSql);
+				pstmt.setString(1, queryForm.getEmpNum());
+				pstmt.setString(2, item.getToday());
+				ResultSet rs = pstmt.executeQuery();
+				rs.next();
+				int count = rs.getInt("emp_no"); 		// 検索用結果用の変数(0なら本日のレコード無し、1なら有り)
+
+				// レコードのUPDATE（レコードが有る場合のみ(countが1)）
+				if (count == 1) {
+					pstmt = con.prepareStatement(lastSql);
+					pstmt.setString(1, item.getWorkTime());
+					pstmt.setString(2, item.getNowTime());
+					pstmt.setString(3, queryForm.getEmpNum());
+					pstmt.setString(4, item.getToday());
+					pstmt.executeUpdate();
+					pstmt.close();
+					queryForm.setMessage(item.getNowTime() + "  本日もお疲れ様でした！");
+					queryForm.setErrorMessage("");
+				} else if (count == 0){
+					queryForm.setErrorMessage("既に退勤が押されています…");
+				} else {
+					queryForm.setErrorMessage("エラー番号605が発生しました。管理者にお問い合わせ下さい");
+				}
 			}
 
 		} catch (NullPointerException e) {

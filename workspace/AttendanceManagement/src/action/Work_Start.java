@@ -42,31 +42,37 @@ public class Work_Start extends Action {
 		// 出勤レコード追加
 		try (Connection con = DBConnect.con();) {
 
-			// 既存レコードの検索
-			PreparedStatement pstmt = con.prepareStatement(countSql);
-			pstmt.setString(1, queryForm.getEmpNum());
-			pstmt.setString(2, item.getToday());
-			ResultSet rs = pstmt.executeQuery();
-			rs.next();
-			int count = rs.getInt("emp_no");		// 検索用結果用の変数(0なら本日のレコード無し、1なら有り)
+			// countSqlとstartSqlのどちらともnullではない時に出勤レコードを追加
+			if ( (countSql == null) || (startSql == null)){
+				queryForm.setErrorMessage("エラー番号704が発生しました。管理者にお問い合わせ下さい");
+			} else {
 
-			// レコード追加（レコードが無い場合のみ(検索結果のcountが0)）
-			if (count == 0){
-				pstmt = con.prepareStatement(startSql);
+				// 既存レコードの検索
+				PreparedStatement pstmt = con.prepareStatement(countSql);
 				pstmt.setString(1, queryForm.getEmpNum());
 				pstmt.setString(2, item.getToday());
-				pstmt.setInt(3, Item.nowYear);
-				pstmt.setInt(4, Item.nowMonth);
-				pstmt.setInt(5, Item.nowDay);
-				pstmt.setString(6, item.getWorkTime());
-				pstmt.setString(7, item.getNowTime());
-				pstmt.executeUpdate();
-				pstmt.close();
-				queryForm.setMessage(item.getNowTime() + "  本日もお願いします！");
-				queryForm.setErrorMessage("");
-			} else {
-				queryForm.setErrorMessage("既に出勤が押されています…");
-				System.out.println("レコード追加 失敗");
+				ResultSet rs = pstmt.executeQuery();
+				rs.next();
+				int count = rs.getInt("emp_no");		// 検索用結果用の変数(0なら本日のレコード無し、1なら有り)
+
+				// レコード追加（レコードが無い場合のみ(検索結果のcountが0)）
+				if (count == 0){
+					pstmt = con.prepareStatement(startSql);
+					pstmt.setString(1, queryForm.getEmpNum());
+					pstmt.setString(2, item.getToday());
+					pstmt.setInt(3, Item.nowYear);
+					pstmt.setInt(4, Item.nowMonth);
+					pstmt.setInt(5, Item.nowDay);
+					pstmt.setString(6, item.getWorkTime());
+					pstmt.setString(7, item.getNowTime());
+					pstmt.executeUpdate();
+					pstmt.close();
+					queryForm.setMessage(item.getNowTime() + "  本日もお願いします！");
+				} else if (count == 1){
+					queryForm.setErrorMessage("既に出勤が押されています…");
+				} else {
+					queryForm.setErrorMessage("エラー番号705が発生しました。管理者にお問い合わせ下さい");
+				}
 			}
 
 		} catch (NullPointerException e) {

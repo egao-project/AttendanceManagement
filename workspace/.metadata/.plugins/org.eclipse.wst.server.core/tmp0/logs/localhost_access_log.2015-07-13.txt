@@ -1,0 +1,10 @@
+127.0.0.1 - - [13/Jul/2015:18:15:52 +0900] "GET / HTTP/1.1" 404 1019
+0:0:0:0:0:0:0:1 - - [13/Jul/2015:18:15:53 +0900] "GET /AttendanceManagement/login.jsp HTTP/1.1" 200 1469
+0:0:0:0:0:0:0:1 - - [13/Jul/2015:18:15:53 +0900] "GET /AttendanceManagement/img/egao.png HTTP/1.1" 200 66399
+0:0:0:0:0:0:0:1 - - [13/Jul/2015:18:15:53 +0900] "GET /AttendanceManagement/css.css HTTP/1.1" 200 1439
+0:0:0:0:0:0:0:1 - - [13/Jul/2015:18:15:53 +0900] "GET /favicon.ico HTTP/1.1" 404 1041
+0:0:0:0:0:0:0:1 - - [13/Jul/2015:18:16:19 +0900] "POST /AttendanceManagement/Login_Nomal.do;jsessionid=2A719ACF805BF7E60F7409ED2FA3D0D2 HTTP/1.1" 200 1661
+0:0:0:0:0:0:0:1 - - [13/Jul/2015:18:16:19 +0900] "GET /favicon.ico HTTP/1.1" 404 1041
+0:0:0:0:0:0:0:1 - - [13/Jul/2015:18:16:25 +0900] "GET /AttendanceManagement/StartTime.do HTTP/1.1" 200 1698
+0:0:0:0:0:0:0:1 - - [13/Jul/2015:18:16:30 +0900] "GET /AttendanceManagement/LastTime.do HTTP/1.1" 200 1701
+0:0:0:0:0:0:0:1 - - [13/Jul/2015:18:16:36 +0900] "POST /AttendanceManagement/output.do HTTP/1.1" 200 329

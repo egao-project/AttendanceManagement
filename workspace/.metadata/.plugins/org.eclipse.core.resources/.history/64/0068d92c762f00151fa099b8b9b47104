@@ -100,7 +100,6 @@ public class Output extends Action {
 					rs = pstmt.executeQuery();
 					ResultSetMetaData rsmd = rs.getMetaData();
 
-					// rsmdの値がnullではない時に書き込み開始
 					if (!(rsmd == null)){
 						// タイトル行の出力
 						out.println("株式会社イーガオ");
